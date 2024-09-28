@@ -1,0 +1,7 @@
+/vendor/
+/tmp
+/composer.phar
+/config/webhooks.php
+/config/messages.php
+/config/payloads.php
+/config/allowed.php

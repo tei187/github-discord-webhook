@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * Configuration for the webhooks.
+ * 
+ * The webhook name should match the path parameter in the webhook URL set in GitHub.
+ */
+
+return [
+    'webhook-name' => [
+        'url' => 'your-discord-webhook-url',
+        'secret' => 'your-github-secret',
+        'repos' => [ 'user/repo-name' ] // or `null` or empty array
+    ],
+];

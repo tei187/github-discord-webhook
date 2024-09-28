@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Configuration for the message classes.
+ * 
+ * These should correspond with the event name in the GitHub webhook payload.
+ */
+
+return [
+    'push'    => [
+        'commit' => \tei187\GithubDiscordWebhook\Payloads\Push\Commit::class,
+        'tag'    => \tei187\GithubDiscordWebhook\Payloads\Push\Tag::class,
+        'branch' => \tei187\GithubDiscordWebhook\Payloads\Push\Branch::class,
+    ],
+    //'fork'=> \tei187\GithubDiscordWebhook\Payloads\Fork::class,
+    'ping' => \tei187\GithubDiscordWebhook\Payloads\Ping::class,
+    'release' => \tei187\GithubDiscordWebhook\Payloads\Release::class,
+];

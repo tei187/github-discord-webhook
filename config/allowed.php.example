@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * Configuration for excluded events and/or actions.
+ * The keys are the event types, and the values are arrays of actions that should be allowed to be sent to Discord webhook if `true`.
+ */
+return [
+    'push' => [
+        'tag' => [
+            'created' => false,
+            'deleted' => false,
+        ],
+        'branch' => [
+            'created' => true,
+            'deleted' => false,
+        ],
+        'commit' => true,
+    ],
+    'ping' => true,
+    'fork' => true,
+    'release' => [
+        'published' => true,
+        'released' => false,
+        'created' => false,
+        'deleted' => false,
+    ],
+    'pull_request' => [
+        'opened' => true,
+        'closed' => true,
+        'reopened' => false,
+        'review_requested' => true,
+        'review_request_removed' => false,
+        'locked' => false,
+        'unlocked' => false,
+        'ready_for_review' => true,
+    ],
+];
