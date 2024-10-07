@@ -1,9 +1,9 @@
 <?php
 
-namespace tei187\GithubDiscordWebhook\Traits;
+namespace tei187\GitDisWebhook\Traits;
 
 /**
- * Trait allowing handling of 'sender' data, if it exits in received payload.
+ * Provides functionality for working with the sender information from a GitHub webhook payload.
  */
 trait PayloadUsesSender {
     /**

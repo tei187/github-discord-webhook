@@ -1,9 +1,9 @@
 <?php
 
-namespace tei187\GithubDiscordWebhook\Traits;
+namespace tei187\GitDisWebhook\Traits;
 
 /**
- * Trait allowing handling of 'pusher' data, if it exits in received payload.
+ * Trait that provides functionality for handling a Pusher object based on the payload of a GitHub webhook request.
  */
 trait PayloadUsesPusher {
     /**

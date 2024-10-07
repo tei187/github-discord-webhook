@@ -1,7 +1,10 @@
 <?php
 
-namespace tei187\GithubDiscordWebhook\Traits;
+namespace tei187\GitDisWebhook\Traits;
 
+/**
+ * Provides functionality for working with the Git branch associated with a GitHub webhook request.
+ */
 trait PayloadUsesBranch {
     /**
      * @var string The name of the Git branch associated with the GitHub webhook request.
