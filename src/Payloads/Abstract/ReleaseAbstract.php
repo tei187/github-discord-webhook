@@ -1,16 +1,16 @@
 <?php
 
-namespace tei187\GithubDiscordWebhook\Payloads\Abstract;
+namespace tei187\GitDisWebhook\Payloads\Abstract;
 
-use tei187\GithubDiscordWebhook\Payloads\Abstract\PayloadAbstract;
-use tei187\GithubDiscordWebhook\Traits\PayloadUsesSender;
+use tei187\GitDisWebhook\Payloads\Abstract\PayloadAbstract;
+use tei187\GitDisWebhook\Traits\PayloadUsesSender;
 
 abstract class ReleaseAbstract extends PayloadAbstract {
     use PayloadUsesSender;
 
-    // assigned
-    protected  string $event   = 'release';
-    protected ?string $subject = null;
+    // designation
+        protected  string $event   = 'release';
+        protected ?string $subject = null;
     
     /**
      * Creates a new release object from the provided decoded release data.

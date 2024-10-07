@@ -1,11 +1,12 @@
 <?php
 
-namespace tei187\GithubDiscordWebhook\Factories;
+namespace tei187\GitDisWebhook\Factories;
 
-use tei187\GithubDiscordWebhook\Handlers\ResponseHandler;
-use tei187\GithubDiscordWebhook\Interfaces\Payload as PayloadInterface;
-use tei187\GithubDiscordWebhook\Interfaces\Webhook as WebhookInterface;
-use tei187\GithubDiscordWebhook\Webhook;
+use tei187\GitDisWebhook\Helpers\UrlParser;
+use tei187\GitDisWebhook\Handlers\ResponseHandler;
+use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
+use tei187\GitDisWebhook\Webhook;
 
 /**
  * Provides a factory for creating webhook profiles based on configuration settings.
@@ -32,8 +33,6 @@ class WebhookFactory
 
     /**
      * Constructs a new WebhookFactory instance.
-     *
-     * @param string|null $site The site name to use for determining the webhook name. If not set, it will use the last part of the current URL path.
      */
     public function __construct()
     {
@@ -41,15 +40,17 @@ class WebhookFactory
         $this->config = require __DIR__ . '/../../config/webhooks.php';
 
         // Get the webhook name from the URL path
-        $url = parse_url($_SERVER['REQUEST_URI']);
-        $exploded = explode("/", $url['path']);
-        $this->name = end( $exploded );
+        $this->name = UrlParser::extractWebhookName($_SERVER['REQUEST_URI']);
+
+        if (!$this->name || $this->name === null) {
+            ResponseHandler::send("No webhook name could be found in call path.", "error", 422);
+        }
     }
 
     /**
      * Creates a new webhook profile based on the configured webhook settings.
      *
-     * @param PayloadInterface $payload The payload data of Payload interface to use for creating the webhook profile.
+     * @param  PayloadInterface $payload The payload data of Payload interface to use for creating the webhook profile.
      * @return WebhookInterface|void The created webhook profile of Webhook interface or ResponseHandler void.
      */
     public function createWebhook(PayloadInterface $payload): WebhookInterface

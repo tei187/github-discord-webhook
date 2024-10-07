@@ -1,9 +1,9 @@
 <?php
 
-namespace tei187\GithubDiscordWebhook\Payloads;
+namespace tei187\GitDisWebhook\Payloads;
 
-use tei187\GithubDiscordWebhook\Handlers\ResponseHandler;
-use tei187\GithubDiscordWebhook\Payloads\Abstract\PingAbstract;
+use tei187\GitDisWebhook\Handlers\ResponseHandler;
+use tei187\GitDisWebhook\Payloads\Abstract\PingAbstract;
 
 class Ping extends PingAbstract {
     public function parse(string $payload): self {
@@ -12,7 +12,6 @@ class Ping extends PingAbstract {
         if (json_last_error() === JSON_ERROR_NONE) {
             $this->plain = (string) $payload;
             $this->repo  = (objecT) self::makeRepo($decoded);
-            $this->checkAllowed();
 
             return $this;
         }

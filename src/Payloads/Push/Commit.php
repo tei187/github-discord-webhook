@@ -1,10 +1,9 @@
 <?php
 
-namespace tei187\GithubDiscordWebhook\Payloads\Push;
+namespace tei187\GitDisWebhook\Payloads\Push;
 
-use tei187\GithubDiscordWebhook\Handlers\ResponseHandler;
-use tei187\GithubDiscordWebhook\Payloads\Abstract\CommitAbstract;
-use tei187\GithubDiscordWebhook\Traits\PayloadUsesBranch;
+use tei187\GitDisWebhook\Handlers\ResponseHandler;
+use tei187\GitDisWebhook\Payloads\Abstract\CommitAbstract;
 
 class Commit extends CommitAbstract {
     public function parse(string $payload): self {
@@ -17,7 +16,6 @@ class Commit extends CommitAbstract {
             $this->branch  = (string) self::makeBranch($decoded);
             $this->pusher  = (object) self::makePusher($decoded);
             $this->repo    = (object) self::makeRepo($decoded);
-            $this->checkAllowed();
 
             return $this;
         }

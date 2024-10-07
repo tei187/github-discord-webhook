@@ -1,7 +1,8 @@
 <?php
-namespace tei187\GithubDiscordWebhook\Messages\Push\Tag;
 
-use tei187\GithubDiscordWebhook\Messages\MessageAbstract;
+namespace tei187\GitDisWebhook\Messages\Push\Tag;
+
+use tei187\GitDisWebhook\Messages\MessageAbstract;
 
 class Deleted extends MessageAbstract {
     

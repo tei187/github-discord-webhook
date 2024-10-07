@@ -1,10 +1,11 @@
 <?php
-namespace tei187\GithubDiscordWebhook\Factories;
 
-use tei187\GithubDiscordWebhook\Handlers\ArrayHandler;
-use tei187\GithubDiscordWebhook\Handlers\ResponseHandler;
-use tei187\GithubDiscordWebhook\Interfaces\Webhook as WebhookInterface;
-use tei187\GithubDiscordWebhook\Interfaces\Message as MessageInterface;
+namespace tei187\GitDisWebhook\Factories;
+
+use tei187\GitDisWebhook\Handlers\ArrayHandler;
+use tei187\GitDisWebhook\Handlers\ResponseHandler;
+use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\Message as MessageInterface;
 
 class MessageFactory
 {
@@ -23,7 +24,7 @@ class MessageFactory
     /**
      * Creates a message object based on the provided event.
      *
-     * @param string $event The event that triggered the message.
+     * @param string           $event   The event that triggered the message.
      * @param WebhookInterface $webhook The webhook data of Webhook interface.
      * @return MessageInterface|void The message object of Message interface, or ResponseHandler void.
      */

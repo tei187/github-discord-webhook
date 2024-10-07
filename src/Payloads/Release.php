@@ -1,9 +1,9 @@
 <?php
 
-namespace tei187\GithubDiscordWebhook\Payloads;
+namespace tei187\GitDisWebhook\Payloads;
 
-use tei187\GithubDiscordWebhook\Handlers\ResponseHandler;
-use tei187\GithubDiscordWebhook\Payloads\Abstract\ReleaseAbstract;
+use tei187\GitDisWebhook\Handlers\ResponseHandler;
+use tei187\GitDisWebhook\Payloads\Abstract\ReleaseAbstract;
 
 /**
  * Represents a release event received from a GitHub webhook.
@@ -36,7 +36,6 @@ class Release extends ReleaseAbstract {
             $this->release = self::makeRelease($decoded);
             $this->author  = self::makeAuthor($decoded);
             $this->repo    = self::makeRepo($decoded);
-            $this->checkAllowed();
 
             return $this;
         }

@@ -1,7 +1,8 @@
 <?php
-namespace tei187\GithubDiscordWebhook\Messages\Release;
 
-use tei187\GithubDiscordWebhook\Messages\MessageAbstract;
+namespace tei187\GitDisWebhook\Messages\Release;
+
+use tei187\GitDisWebhook\Messages\MessageAbstract;
 
 class Published extends MessageAbstract {
     /**
@@ -17,7 +18,7 @@ class Published extends MessageAbstract {
                  . "({$this->webhook->payload->release->tag}) **{$this->webhook->payload->release->name}**"
                  . ( $this->webhook->payload->release->prerelease ? "*(pre-release)*\n" : "\n" )
                  . "**Description**\n"
-                 . "{$this->webhook->payload->release->desc}\n";
+                 . "> {$this->webhook->payload->release->desc}\n";
 
         $this->message = $message;
     }

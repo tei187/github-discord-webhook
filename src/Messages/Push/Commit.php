@@ -1,7 +1,8 @@
 <?php
-namespace tei187\GithubDiscordWebhook\Messages\Push;
 
-use tei187\GithubDiscordWebhook\Messages\MessageAbstract;
+namespace tei187\GitDisWebhook\Messages\Push;
+
+use tei187\GitDisWebhook\Messages\MessageAbstract;
 
 class Commit extends MessageAbstract {
     
@@ -23,7 +24,7 @@ class Commit extends MessageAbstract {
                 
         foreach ($this->webhook->payload->commits as $commit) {
             $short_hash = substr($commit->id, 0, 7);
-            $message .= "- [{$short_hash}]({$commit->url}) {$commit->message}\n";
+            $message .= "> - [{$short_hash}]({$commit->url}) {$commit->message}\n";
         }
 
         $this->message = $message;

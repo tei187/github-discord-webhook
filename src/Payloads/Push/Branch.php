@@ -1,9 +1,9 @@
 <?php
 
-namespace tei187\GithubDiscordWebhook\Payloads\Push;
+namespace tei187\GitDisWebhook\Payloads\Push;
 
-use tei187\GithubDiscordWebhook\Handlers\ResponseHandler;
-use tei187\GithubDiscordWebhook\Payloads\Abstract\BranchAbstract;
+use tei187\GitDisWebhook\Handlers\ResponseHandler;
+use tei187\GitDisWebhook\Payloads\Abstract\BranchAbstract;
 
 class Branch extends BranchAbstract {
     public function parse(string $payload): self {
@@ -16,7 +16,6 @@ class Branch extends BranchAbstract {
             $this->branch = (string) self::makeBranch($decoded);
             $this->pusher = (object) self::makePusher($decoded);
             $this->sender = (object) self::makeSender($decoded);
-            $this->checkAllowed();
             
             return $this;
         }

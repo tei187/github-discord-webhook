@@ -1,10 +1,10 @@
 <?php
 
-namespace tei187\GithubDiscordWebhook\Factories;
+namespace tei187\GitDisWebhook\Factories;
 
-use tei187\GithubDiscordWebhook\Handlers\PayloadResolver;
-use tei187\GithubDiscordWebhook\Handlers\ResponseHandler;
-use tei187\GithubDiscordWebhook\Interfaces\Payload as PayloadInterface;
+use tei187\GitDisWebhook\Handlers\PayloadResolver;
+use tei187\GitDisWebhook\Handlers\ResponseHandler;
+use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
 
 class PayloadFactory
 {
@@ -22,7 +22,7 @@ class PayloadFactory
     /**
      * Creates a new payload instance based on the provided event.
      *
-     * @param string|null $event The event for which to create the payload.
+     * @param string|null $event   The event for which to create the payload.
      * @param string      $payload The data to be included in the payload.
      * @return PayloadInterface|void The payload instance typical for given event, otherwise a ResponseHandler void with error message.
      */

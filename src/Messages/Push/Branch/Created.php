@@ -1,7 +1,8 @@
 <?php
-namespace tei187\GithubDiscordWebhook\Messages\Push\Branch;
 
-use tei187\GithubDiscordWebhook\Messages\MessageAbstract;
+namespace tei187\GitDisWebhook\Messages\Push\Branch;
+
+use tei187\GitDisWebhook\Messages\MessageAbstract;
 
 class Created extends MessageAbstract {
     /**

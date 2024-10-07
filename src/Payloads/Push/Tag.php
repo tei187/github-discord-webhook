@@ -1,9 +1,9 @@
 <?php
 
-namespace tei187\GithubDiscordWebhook\Payloads\Push;
+namespace tei187\GitDisWebhook\Payloads\Push;
 
-use tei187\GithubDiscordWebhook\Handlers\ResponseHandler;
-use tei187\GithubDiscordWebhook\Payloads\Abstract\TagAbstract;
+use tei187\GitDisWebhook\Handlers\ResponseHandler;
+use tei187\GitDisWebhook\Payloads\Abstract\TagAbstract;
 
 class Tag extends TagAbstract {
     public function parse(string $payload): self {
@@ -16,7 +16,6 @@ class Tag extends TagAbstract {
             $this->sender  = (object) self::makeSender($decoded);
             $this->tagName = (string) self::makeTagName($decoded);
             $this->action  = (string) self::makeAction($decoded);
-            $this->checkAllowed();
 
             return $this;
         }

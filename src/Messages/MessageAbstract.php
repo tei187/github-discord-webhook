@@ -1,9 +1,10 @@
 <?php
-namespace tei187\GithubDiscordWebhook\Messages;
 
-use tei187\GithubDiscordWebhook\Handlers\ResponseHandler;
-use tei187\GithubDiscordWebhook\Interfaces\Message as MessageInterface;
-use tei187\GithubDiscordWebhook\Interfaces\Webhook as WebhookInterface;
+namespace tei187\GitDisWebhook\Messages;
+
+use tei187\GitDisWebhook\Handlers\ResponseHandler;
+use tei187\GitDisWebhook\Interfaces\Message as MessageInterface;
+use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
 
 abstract class MessageAbstract implements MessageInterface {
     /**
@@ -76,7 +77,7 @@ abstract class MessageAbstract implements MessageInterface {
      * @return void
      */
     public function send(): void {
-        if($this->webhook->payload->allowed !== true) {
+        if($this->webhook->allowed !== true) {
             ResponseHandler::send("Payload received but not allowed to send to channel due to webhook's config.", "success", 200);
         }
 
@@ -87,32 +88,24 @@ abstract class MessageAbstract implements MessageInterface {
             : $this->failedResponse();
     }
 
-    /**
-     * Sends a success response to the ResponseHandler.
-     *
-     * This method is called when the message is successfully sent to the configured webhook's channel.
-     */
-    public function successResponse() {
-        ResponseHandler::send("Message sent successfully.", "success", 200);
-    }
-
-    /**
-     * Sends a failure response to the ResponseHandler.
-     *
-     * This method is called when the message fails to be sent to the configured webhook's channel.
-     */
-    public function failedResponse() {
-        ResponseHandler::send("Payload received but message failed to send to channel.", "error", 400);
-    }
-
-    public function __get($param) {
-        if(isset($this->$param)) {
-            return match ($param) {
-                'message' => $this->message,
-                'sent'    => $this->status,
-                'webhook' => $this->webhook,
-                default   => null
-            };
+    // responses
+        public function successResponse(): ResponseHandler {
+            return ResponseHandler::send("Message sent successfully.", "success", 200);
         }
-    }
+
+        public function failedResponse(): ResponseHandler {
+            return ResponseHandler::send("Payload received but message failed to send to channel.", "error", 400);
+        }
+
+    // magic getter
+        public function __get($param) {
+            if(isset($this->$param)) {
+                return match ($param) {
+                    'message' => $this->message,
+                    'sent'    => $this->status,
+                    'webhook' => $this->webhook,
+                    default   => null
+                };
+            }
+        }
 }
