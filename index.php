@@ -2,11 +2,11 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use tei187\GithubDiscordWebhook\Factories\MessageFactory;
-use tei187\GithubDiscordWebhook\Factories\PayloadFactory;
-use tei187\GithubDiscordWebhook\Factories\WebhookFactory;
+use tei187\GitDisWebhook\Factories\MessageFactory;
+use tei187\GitDisWebhook\Factories\PayloadFactory;
+use tei187\GitDisWebhook\Factories\WebhookFactory;
 
-// instantiate PayloadAllowed with config values.
+// define root path
 define('GHDWEBHOOK_ROOT', __DIR__ . '/');
 
 // assign factories
