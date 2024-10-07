@@ -8,11 +8,11 @@
 
 return [
     'push'    => [
-        'commit' => \tei187\GithubDiscordWebhook\Payloads\Push\Commit::class,
-        'tag'    => \tei187\GithubDiscordWebhook\Payloads\Push\Tag::class,
-        'branch' => \tei187\GithubDiscordWebhook\Payloads\Push\Branch::class,
+        'commit' => \tei187\GitDisWebhook\Payloads\Push\Commit::class,
+        'tag'    => \tei187\GitDisWebhook\Payloads\Push\Tag::class,
+        'branch' => \tei187\GitDisWebhook\Payloads\Push\Branch::class,
     ],
-    //'fork'=> \tei187\GithubDiscordWebhook\Payloads\Fork::class,
-    'ping' => \tei187\GithubDiscordWebhook\Payloads\Ping::class,
-    'release' => \tei187\GithubDiscordWebhook\Payloads\Release::class,
+    //'fork'=> \tei187\GitDisWebhook\Payloads\Fork::class,
+    'ping' => \tei187\GitDisWebhook\Payloads\Ping::class,
+    'release' => \tei187\GitDisWebhook\Payloads\Release::class,
 ];

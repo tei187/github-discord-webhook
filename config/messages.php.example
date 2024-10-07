@@ -8,19 +8,19 @@
 
 return [
     'push' => [
-        'commit' => \tei187\GithubDiscordWebhook\Messages\Push\Commit::class,
+        'commit' => \tei187\GitDisWebhook\Messages\Push\Commit::class,
         'tag' => [
-            'created' => \tei187\GithubDiscordWebhook\Messages\Push\Tag\Created::class,
-            'deleted' => \tei187\GithubDiscordWebhook\Messages\Push\Tag\Deleted::class,
+            'created' => \tei187\GitDisWebhook\Messages\Push\Tag\Created::class,
+            'deleted' => \tei187\GitDisWebhook\Messages\Push\Tag\Deleted::class,
         ],
         'branch' => [
-            'created' => \tei187\GithubDiscordWebhook\Messages\Push\Branch\Created::class,
-            'deleted' => \tei187\GithubDiscordWebhook\Messages\Push\Branch\Deleted::class,
+            'created' => \tei187\GitDisWebhook\Messages\Push\Branch\Created::class,
+            'deleted' => \tei187\GitDisWebhook\Messages\Push\Branch\Deleted::class,
         ]
     ],
     'fork' => null,
     'release' => [
-        'published' => \tei187\GithubDiscordWebhook\Messages\Release\Published::class,
+        'published' => \tei187\GitDisWebhook\Messages\Release\Published::class,
         'released'  => null,
         'created'   => null,
         'deleted'   => null,

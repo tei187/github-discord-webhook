@@ -1,9 +1,9 @@
 {
-    "name": "tei187/github-discord-webhook",
+    "name": "tei187/git-dis-webhook",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "tei187\\GithubDiscordWebhook\\": "src/"
+            "tei187\\GitDisWebhook\\": "src/"
         }
     },
     "authors": [
@@ -12,5 +12,9 @@
             "email": "bonk.piotr@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "scripts": {
+        "default-config": "php scripts/rename_example_files.php",
+        "default-config-dry": "php scripts/rename_example_files.php --dry-run"
+    }
 }

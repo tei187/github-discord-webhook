@@ -5,11 +5,65 @@
  * 
  * The webhook name should match the path parameter in the webhook URL set in GitHub.
  */
-
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Webhook specification
+    |--------------------------------------------------------------------------
+    | Array of arrays, where index is the name of the webhook and value is an
+    | array with keys 'url', 'secret', 'repos' and 'allow'.
+    */
+
     'webhook-name' => [
+        /*
+        |----------------------------------------------------------------------
+        | Webhook URL
+        |----------------------------------------------------------------------
+        | The URL provided through Discord while registering. Typically
+        | formatted similarily to:
+        | https://discord.com/api/webhooks/xxx/yyy
+        |
+        | Required parameter.
+        */
         'url' => 'your-discord-webhook-url',
+
+        /*
+        |----------------------------------------------------------------------
+        | Secret code
+        |----------------------------------------------------------------------
+        | A secret string used to validate payloads and authorize things on
+        | GitHub's side.
+        |
+        | Required parameter.
+        */
         'secret' => 'your-github-secret',
-        'repos' => [ 'user/repo-name' ] // or `null` or empty array
+
+        /*
+        |----------------------------------------------------------------------
+        | Repository list
+        |----------------------------------------------------------------------
+        | Array of repo names allowed to send event hooks to current webhook
+        | profile. Each element should be a string, formatted as below:
+        | 'account/repository-name'
+        |
+        | If not set (null or empty array), it will accept every call from
+        | every repository which points to specific webhook.
+        */
+        'repos' => [
+            //
+        ],
+
+        /*
+        |----------------------------------------------------------------------
+        | Event processing allowance
+        |----------------------------------------------------------------------
+        | List of overrides of of event acceptance and messages classes.
+        | Must be the equivalent to structures in 'allowed.php' and 
+        | 'messages.php' configuration files.
+        */
+        'overrides' => [
+            'allowed' => [],
+            'messages' => [],
+        ]
     ],
 ];
