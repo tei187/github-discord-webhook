@@ -1,14 +1,22 @@
 <?php
 
-namespace tei187\GithubDiscordWebhook\Handlers;
+namespace tei187\GitDisWebhook\Handlers;
 
-use tei187\GithubDiscordWebhook\Handlers\ResponseHandler;
+use tei187\GitDisWebhook\Handlers\ResponseHandler;
 
-class PayloadResolver {
+/**
+ * Resolves and processes the payload received from Git-based webhooks.
+ * 
+ * This class handles the interpretation and extraction of relevant data
+ * from the webhook payload, facilitating further actions based on the
+ * received information.
+ */
+class PayloadResolver 
+{
     /**
      * Resolves whether a push event is about tags, branches or general commit
      *
-     * @param \stdClass $payload The payload from the GitHub webhook
+     * @param  \stdClass $payload The payload from the GitHub webhook
      * @return string The type of push event ('tag', 'branch', or 'commit')
      */
     private static function pushEventType(\stdClass $payload)
@@ -28,9 +36,9 @@ class PayloadResolver {
     /**
      * Finds which payload should be loaded, basing on the header and configuration array.
      *
-     * @param string $payload Plain text JSON payload from GitHub call.
-     * @param array  $payloadsConfig Array with configured payload classes.
-     * @return ?string|void `null` if not found, class name if found, or ResponseHandler void due to lack of event name in header.
+     * @param  string       $payload        Plain text JSON payload from GitHub call.
+     * @param  array        $payloadsConfig Array with configured payload classes.
+     * @return ?string|void `null` if not found, class name if found, or `ResponseHandler` void due to lack of event name in header.
      */
     public static function find(string $payload, array $payloadsConfig): ?string {
         $_SERVER['HTTP_X_GITHUB_EVENT'] ?: ResponseHandler::send("No event provided in HTTP_X_GITHUB_EVENT header.", "error", 400);
