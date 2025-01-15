@@ -2,6 +2,7 @@
 
 namespace tei187\GitDisWebhook\Messages\Release;
 
+use tei187\GitDisWebhook\Helpers\Markdown;
 use tei187\GitDisWebhook\Messages\MessageAbstract;
 
 class Published extends MessageAbstract {
@@ -18,7 +19,7 @@ class Published extends MessageAbstract {
                  . "({$this->webhook->payload->release->tag}) **{$this->webhook->payload->release->name}**"
                  . ( $this->webhook->payload->release->prerelease ? "*(pre-release)*\n" : "\n" )
                  . "**Description**\n"
-                 . "> {$this->webhook->payload->release->desc}\n";
+                 . Markdown::newlineToQuote($this->webhook->payload->release->desc);
 
         $this->message = $message;
     }

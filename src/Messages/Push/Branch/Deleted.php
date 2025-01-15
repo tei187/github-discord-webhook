@@ -12,7 +12,7 @@ class Deleted extends MessageAbstract {
      * @return void
      */
     protected function create(): void {
-        $this->message = "Bbranch **\"{$this->webhook->payload->branch}\"** deleted from **[{$this->webhook->payload->repo->fullname}](https://github.com/{$this->webhook->payload->repo->fullname})**"
+        $this->message = "Branch **\"{$this->webhook->payload->branch}\"** deleted from **[{$this->webhook->payload->repo->fullname}](https://github.com/{$this->webhook->payload->repo->fullname})**"
                        . " by *[{$this->webhook->payload->pusher->name}](https://github.com/{$this->webhook->payload->pusher->name})*.";
     }
 }
