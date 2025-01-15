@@ -3,6 +3,7 @@
 namespace tei187\GitDisWebhook\Payloads\Abstract;
 
 use tei187\GitDisWebhook\Handlers\ArrayHandler;
+use tei187\GitDisWebhook\Handlers\ConfigHandler;
 use tei187\GitDisWebhook\Traits\UsesMagicGetter;
 use tei187\GitDisWebhook\Traits\PayloadUsesRepo;
 use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
@@ -59,7 +60,7 @@ abstract class PayloadAbstract implements PayloadInterface {
      * @deprecated 1.1.0 Event validation is now handled by Webhook class, due to implementation of overrides configs.
      */
     public function checkAllowed(): self {
-        $config = require(GHDWEBHOOK_ROOT . 'config/allowed.php');
+        $config = ConfigHandler::load(\tei187\GitDisWebhook\Enums\ConfigKeys::ALLOWED);
 
         // path construction
         $path = array_filter( 

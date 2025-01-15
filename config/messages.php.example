@@ -18,7 +18,7 @@ return [
             'deleted' => \tei187\GitDisWebhook\Messages\Push\Branch\Deleted::class,
         ]
     ],
-    'fork' => null,
+    'fork' => \tei187\GitDisWebhook\Messages\Fork::class,
     'release' => [
         'published' => \tei187\GitDisWebhook\Messages\Release\Published::class,
         'released'  => null,

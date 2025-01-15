@@ -15,7 +15,9 @@ class ConfigHandler {
      *
      * It will use ConfigKeys enum or name of the PHP file associated with the config. If null is set, it will load all configs into single array.
      *
-     * @param ConfigKeys|string|null $config The configuration to load.
+     * @param ConfigKeys|string|null $config The configuration to load. File associated with `ConfigKeys` enum, `null` for all default files (as
+     *                                       collective array) or `string` being the filename of specific configuration PHP file within 'config`
+     *                                       directory.
      * @return array|null The loaded configuration, or null if the configuration could not be loaded.
      */
     static public function load(ConfigKeys|string|null $config): ?array {

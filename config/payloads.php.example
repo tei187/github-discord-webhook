@@ -12,7 +12,7 @@ return [
         'tag'    => \tei187\GitDisWebhook\Payloads\Push\Tag::class,
         'branch' => \tei187\GitDisWebhook\Payloads\Push\Branch::class,
     ],
-    //'fork'=> \tei187\GitDisWebhook\Payloads\Fork::class,
+    'fork'=> \tei187\GitDisWebhook\Payloads\Fork::class,
     'ping' => \tei187\GitDisWebhook\Payloads\Ping::class,
     'release' => \tei187\GitDisWebhook\Payloads\Release::class,
 ];

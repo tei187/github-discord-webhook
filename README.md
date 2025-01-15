@@ -46,9 +46,9 @@ Once set up, you'll receive notifications in your Discord server for events conc
 - Tags
 - Releases
 - Branches
+- Forks
 
 Future plans include:
-- Forks
 - Pull requests
 - Issues
 - Comments

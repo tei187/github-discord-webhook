@@ -13,6 +13,7 @@ class ResponseHandler
      * @param  string $message    The message to include in the JSON response.
      * @param  string $type       Type of response, lie "success" or "error".
      * @param  int    $statusCode The HTTP status code to use for the response.
+     * @return never
      */
     public static function send(string $message, string $type, int $statusCode)
     {
