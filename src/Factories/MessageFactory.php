@@ -7,6 +7,14 @@ use tei187\GitDisWebhook\Handlers\ResponseHandler;
 use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
 use tei187\GitDisWebhook\Interfaces\Message as MessageInterface;
 
+/**
+ * Provides a factory for creating message objects based on the provided event and webhook data.
+ *
+ * The MessageFactory class is responsible for creating the appropriate message object based on the * event and webhook data.
+ * It checks for any overrides in the webhook data and uses the configuration to determine the correct message class to instantiate.
+ *
+ * @package tei187\GitDisWebhook\Factories
+ */
 class MessageFactory
 {
     /**

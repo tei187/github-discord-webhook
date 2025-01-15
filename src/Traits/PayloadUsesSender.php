@@ -18,7 +18,7 @@ trait PayloadUsesSender {
      * @param object $decoded The decoded JSON payload of the GitHub webhook request.
      * @return \stdClass An object with the following properties: `name`, `url`, `avatar`, `type`.
      */
-    static function makeSender(object $decoded): \stdClass {
+    protected static function makeSender(object $decoded): \stdClass {
         $sender = new \stdClass;
         $sender->name   = (string) $decoded->sender->login;
         $sender->url    = (string) $decoded->sender->html_url;

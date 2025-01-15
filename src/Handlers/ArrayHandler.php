@@ -13,7 +13,7 @@ class ArrayHandler {
      * @param  string       $path  The dot-separated path to the value.
      * @return mixed|null The value at the specified path, or null if the path does not exist.
      */
-    static public function getValueByDotNotation($array, $path) {
+    public static function getValueByDotNotation($array, $path) {
         $keys = explode('.', $path);
         $value = $array;
     
@@ -36,7 +36,7 @@ class ArrayHandler {
      * @param array $array The input array to filter.
      * @return array The filtered array.
      */
-    static public function filterNulls($array): array {
+    public static function filterNulls($array): array {
         return array_filter(
             $array,
             function($value) { return $value !== null && trim($value) !== '' && strlen(trim($value)) >= 1; }

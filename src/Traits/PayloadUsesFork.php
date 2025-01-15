@@ -18,7 +18,7 @@ trait PayloadUsesFork {
      * @param object $decoded The decoded JSON payload of the GitHub webhook request.
      * @return \stdClass An object with the following properties: `name`, `url`, `avatar`, `type`.
      */
-    static function makeForkee(object $decoded): \stdClass {
+    protected static function makeForkee(object $decoded): \stdClass {
         $forkee = new \stdClass;
         $forkee->avatar = (string) $decoded->forkee->owner->avatar_url;
         $forkee->name   = (string) $decoded->forkee->owner->login;

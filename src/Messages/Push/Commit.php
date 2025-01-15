@@ -4,6 +4,9 @@ namespace tei187\GitDisWebhook\Messages\Push;
 
 use tei187\GitDisWebhook\Messages\MessageAbstract;
 
+/**
+ * This class extends `MessageAbstract` and provides a method to create message for `push.commit` event.
+ */
 class Commit extends MessageAbstract {
     
     /**

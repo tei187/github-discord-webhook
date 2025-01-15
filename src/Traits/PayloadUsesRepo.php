@@ -18,7 +18,7 @@ trait PayloadUsesRepo {
      * @param object $decoded The decoded payload object.
      * @return \stdClass The repository object.
      */
-    static public function makeRepo(object $decoded): \stdClass {
+    protected static function makeRepo(object $decoded): \stdClass {
         $repo = new \stdClass();
         $repo->name     = (string) $decoded->repository->name;
         $repo->fullname = (string) strtolower($decoded->repository->full_name);

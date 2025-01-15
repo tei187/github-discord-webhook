@@ -9,7 +9,7 @@ class Markdown {
      * @param string $string The input string to be converted.
      * @return string[] An array of lines, where each element represents a line from the input string.
      */
-    static function newlineToArray($string) {
+    public static function newlineToArray($string) {
         return explode("\n", $string);
     }
 
@@ -19,7 +19,7 @@ class Markdown {
      * @param string[] $array The input array of strings to be converted.
      * @return string The resulting string with each array element on a new line.
      */
-    static function arrayToLine($array) {
+    public static function arrayToLine($array) {
         return implode("\n", $array);
     }
 
@@ -30,7 +30,7 @@ class Markdown {
      * @param string $prefix The prefix to be added to each line.
      * @return string The resulting string with each array element prefixed and separated by a newline character.
      */
-    static function arrayToLineWithPrefix($array, $prefix) {
+    public static function arrayToLineWithPrefix($array, $prefix) {
         return implode("\n", array_map(function($item) use ($prefix) {
             return $prefix . $item;
         }, $array));
@@ -44,7 +44,7 @@ class Markdown {
      * @param string $suffix The suffix to be added to each line.
      * @return string The resulting string with each array element prefixed, suffixed, and separated by a newline character.
      */
-    static function arrayToLineWithPrefixAndSuffix($array, $prefix, $suffix) {
+    public static function arrayToLineWithPrefixAndSuffix($array, $prefix, $suffix) {
         return implode("\n", array_map(function($item) use ($prefix, $suffix) {
             return $prefix . $item . $suffix;
         }, $array));
@@ -56,7 +56,7 @@ class Markdown {
      * @param string[] $array The input array of strings to be converted.
      * @return string The resulting string with each array element prefixed by '>' and separated by a newline character.
      */
-    static function arrayToQuote($array) {
+    public static function arrayToQuote($array) {
         return self::arrayToLineWithPrefix($array, "> ");
     }
 
@@ -66,7 +66,7 @@ class Markdown {
      * @param string $string The input string to be converted.
      * @return string The resulting quoted string, with each line prefixed by '>'
      */
-    static function newlineToQuote($string) {
+    public static function newlineToQuote($string) {
         return self::arrayToQuote(self::newlineToArray($string));
     }
 
@@ -76,7 +76,7 @@ class Markdown {
      * @param string $text The text to be wrapped in bold.
      * @return string The text wrapped in bold markdown syntax.
      */
-    static function bold($text) {
+    public static function bold($text) {
         return "**" . $text . "**";
     }
 
@@ -86,7 +86,7 @@ class Markdown {
      * @param string $text The text to be wrapped in italic.
      * @return string The text wrapped in italic markdown syntax.
      */
-    static function italic($text) {
+    public static function italic($text) {
         return "*" . $text . "*";
     }
 
@@ -96,7 +96,7 @@ class Markdown {
      * @param string $text The text to be wrapped in strikethrough.
      * @return string The text wrapped in strikethrough markdown syntax.
      */
-    static function strikethrough($text) {
+    public static function strikethrough($text) {
         return "~~" . $text . "~~";
     }
 
@@ -106,7 +106,7 @@ class Markdown {
      * @param string $text The text to be wrapped in inline code.
      * @return string The text wrapped in inline code markdown syntax.
      */
-    static function code($text) {
+    public static function code($text) {
         return "`" . $text . "`";
     }
 
@@ -117,7 +117,7 @@ class Markdown {
      * @param string $language An optional language specifier for the code block.
      * @return string The rendered code block.
      */
-    static function codeBlock($text, $language = "") {
+    public static function codeBlock($text, $language = "") {
         return "```" . $language . "\n" . $text . "\n```\n";
     }
 
@@ -128,7 +128,7 @@ class Markdown {
      * @param string $url The URL that the link should point to.
      * @return string The Markdown-formatted link.
      */
-    static function link($text, $url) {
+    public static function link($text, $url) {
         return "[" . $text . "](" . $url . ")";
     }
 
@@ -139,7 +139,7 @@ class Markdown {
      * @param string $url The URL of the image.
      * @return string The Markdown-formatted image.
      */
-    static function image($altText, $url) {
+    public static function image($altText, $url) {
         return "![" . $altText . "](" . $url . ")";
     }
 
@@ -149,7 +149,7 @@ class Markdown {
      * @param array $items The items to be rendered as an unordered list.
      * @return string The rendered unordered list.
      */
-    static function unorderedList($items) {
+    public static function unorderedList($items) {
         return self::arrayToLineWithPrefix($items, "- ");
     }
 
@@ -159,7 +159,7 @@ class Markdown {
      * @param array $items The items to be rendered as an ordered list.
      * @return string The rendered ordered list.
      */
-    static function orderedList($items) {
+    public static function orderedList($items) {
         return implode("\n", array_map(function($index, $item) {
             return ($index + 1) . ". " . $item;
         }, array_keys($items), $items));
@@ -170,7 +170,7 @@ class Markdown {
      *
      * @return string The rendered horizontal rule.
      */
-    static function horizontalRule() {
+    public static function horizontalRule() {
         return "---";
     }
 
@@ -181,7 +181,7 @@ class Markdown {
      * @param string[][] $rows The data rows for the table.
      * @return string The rendered Markdown table.
      */
-    static function table($headers, $rows) {
+    public static function table($headers, $rows) {
         // header
         $table  = "| " . implode(" | ", $headers) . " |\n"
                 . "| " . implode(" | ", array_fill(0, count($headers), "---")) . " |\n";

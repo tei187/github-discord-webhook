@@ -6,6 +6,7 @@
  * The webhook name should match the path parameter in the webhook URL set in GitHub.
  */
 return [
+    
     /*
     |--------------------------------------------------------------------------
     | Webhook specification
@@ -59,7 +60,9 @@ return [
         |----------------------------------------------------------------------
         | List of overrides of of event acceptance and messages classes.
         | Must be the equivalent to structures in 'allowed.php' and 
-        | 'messages.php' configuration files.
+        | 'messages.php' configuration files. So, 'allowed' will have the same
+        | event path and end with boolean value, while 'messages' will have
+        | the same event path and end with class name of end point message.
         */
         'overrides' => [
             'allowed' => [],

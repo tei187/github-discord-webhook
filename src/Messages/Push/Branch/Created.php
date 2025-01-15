@@ -4,6 +4,9 @@ namespace tei187\GitDisWebhook\Messages\Push\Branch;
 
 use tei187\GitDisWebhook\Messages\MessageAbstract;
 
+/**
+ * This class extends `MessageAbstract` and provides a method to create message for `push.branch.created` event.
+ */
 class Created extends MessageAbstract {
     /**
      * Creates a message for a new branch creation event.

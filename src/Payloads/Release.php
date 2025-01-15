@@ -5,6 +5,9 @@ namespace tei187\GitDisWebhook\Payloads;
 use tei187\GitDisWebhook\Handlers\ResponseHandler;
 use tei187\GitDisWebhook\Payloads\Abstract\ReleaseAbstract;
 
+/**
+ * This class extends `ReleaseAbstract` and provides a method to parse a payload and return a `Release` object.
+ */
 class Release extends ReleaseAbstract {
     /**
      * @var \stdClass Represents the release information extracted from the GitHub webhook payload. If

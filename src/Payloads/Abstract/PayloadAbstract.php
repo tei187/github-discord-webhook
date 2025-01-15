@@ -8,6 +8,16 @@ use tei187\GitDisWebhook\Traits\UsesMagicGetter;
 use tei187\GitDisWebhook\Traits\PayloadUsesRepo;
 use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
 
+
+/**
+ * Defines the base abstract class for handling GitHub webhook payloads.
+ * This class provides common properties and methods for working with GitHub webhook payloads.
+ * Implements `PayloadInterface`.
+ * 
+ * @abstract
+ * @uses \tei187\GitDisWebhook\Traits\PayloadUsesRepo
+ * @uses \tei187\GitDisWebhook\Traits\UsesMagicGetter
+ */
 abstract class PayloadAbstract implements PayloadInterface {
     use UsesMagicGetter,
         PayloadUsesRepo;
@@ -86,7 +96,7 @@ abstract class PayloadAbstract implements PayloadInterface {
      *
      * @return string The dotted path representation of the event, subject, and action properties.
      */
-    final public function getDottedPath(): string {
+    public final function getDottedPath(): string {
         $path = $this->getEventPath();
         return implode('.', array_map('trim', $path));
     }
@@ -97,7 +107,7 @@ abstract class PayloadAbstract implements PayloadInterface {
      * @return array An array representation of existing (not null) event, subject, and action properties.
      * @see getDottedPath()
      */
-    final public function getEventPath(): array {
+    public final function getEventPath(): array {
         return ArrayHandler::filterNulls( [ $this->event, $this->subject, $this->action ] );
     }
         

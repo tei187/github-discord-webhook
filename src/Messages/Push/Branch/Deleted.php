@@ -4,6 +4,9 @@ namespace tei187\GitDisWebhook\Messages\Push\Branch;
 
 use tei187\GitDisWebhook\Messages\MessageAbstract;
 
+/**
+ * This class extends `MessageAbstract` and provides a method to create message for `push.branch.deleted` event.
+ */
 class Deleted extends MessageAbstract {
     /**
      * Creates a message for a branch deletion event.

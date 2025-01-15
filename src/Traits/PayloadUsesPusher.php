@@ -18,7 +18,7 @@ trait PayloadUsesPusher {
      * @param object $decoded The decoded JSON payload of the GitHub webhook request.
      * @return \stdClass An object with the following properties: `name`, `url`, 'email'.
      */
-    static protected function makePusher(object $decoded): \stdClass {
+    protected static function makePusher(object $decoded): \stdClass {
         $pusher = new \stdClass();
         $pusher->name  = (string) $decoded->pusher->name;
         $pusher->url   = (string) "https://github.com/{$pusher->name}";

@@ -5,6 +5,9 @@ namespace tei187\GitDisWebhook\Messages\Release;
 use tei187\GitDisWebhook\Helpers\Markdown;
 use tei187\GitDisWebhook\Messages\MessageAbstract;
 
+/**
+ * This class extends `MessageAbstract` and provides a method to create message for `release.published` event.
+ */
 class Published extends MessageAbstract {
     /**
      * Generates a message for a release event on a GitHub repository.

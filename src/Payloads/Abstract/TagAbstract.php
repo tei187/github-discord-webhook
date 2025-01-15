@@ -6,6 +6,14 @@ use tei187\GitDisWebhook\Payloads\Abstract\PayloadAbstract;
 use tei187\GitDisWebhook\Traits\PayloadUsesPusher;
 use tei187\GitDisWebhook\Traits\PayloadUsesSender;
 
+/**
+ * Represents an abstract class for handling tag-related payloads in a Git-based webhook.
+ * This class extends the `PayloadAbstract`.
+ * 
+ * @abstract
+ * @uses \tei187\GitDisWebhook\Traits\PayloadUsesPusher
+ * @uses \tei187\GitDisWebhook\Traits\PayloadUsesSender
+ */
 abstract class TagAbstract extends PayloadAbstract {
     use PayloadUsesPusher,
         PayloadUsesSender;
@@ -22,7 +30,7 @@ abstract class TagAbstract extends PayloadAbstract {
      * @param object $decoded The decoded payload data.
      * @return $string
      */
-    static function makeTagName(object $decoded): string {
+    protected static function makeTagName(object $decoded): string {
         return (string) explode("/", $decoded->ref)[2];;
     }
 
@@ -32,7 +40,7 @@ abstract class TagAbstract extends PayloadAbstract {
      * @param object $decoded The decoded payload data.
      * @return ?string
      */
-    static function makeAction(object $decoded): ?string {
+    protected static function makeAction(object $decoded): ?string {
         $action = $decoded->created ? (string) 'created' : null;
         $action = $decoded->deleted ? (string) 'deleted' : $action;
         return $action;

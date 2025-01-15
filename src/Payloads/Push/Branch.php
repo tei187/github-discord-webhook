@@ -5,6 +5,9 @@ namespace tei187\GitDisWebhook\Payloads\Push;
 use tei187\GitDisWebhook\Handlers\ResponseHandler;
 use tei187\GitDisWebhook\Payloads\Abstract\BranchAbstract;
 
+/**
+ * This class extends `BranchAbstract` and provides a method to parse a payload and return a `Branch` object.
+ */
 class Branch extends BranchAbstract {
     public function parse(string $payload): self {
         $decoded = json_decode($payload);

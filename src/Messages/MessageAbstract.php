@@ -6,6 +6,11 @@ use tei187\GitDisWebhook\Handlers\ResponseHandler;
 use tei187\GitDisWebhook\Interfaces\Message as MessageInterface;
 use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
 
+/**
+ * Defines the base abstract class for all message types that can be sent to a webhook.
+ * This class provides common functionality and properties for managing the message content
+ * and the webhook instance that the message will be sent to. Implements `MessageInterface`.
+ */
 abstract class MessageAbstract implements MessageInterface {
     /**
      * The message content to be sent to the webhook.
@@ -31,7 +36,8 @@ abstract class MessageAbstract implements MessageInterface {
     /**
      * Constructs a new instance of the message class, associating it with the provided webhook.
      *
-     * @param WebhookInterface $webhook The webhook instance that the message will be sent to. If not provided or error, the message will not be able to be sent.
+     * @param WebhookInterface $webhook The webhook instance that the message will be sent to. If not provided or error,
+     *                                  the message will not be able to be sent.
      */
     function __construct(WebhookInterface $webhook) {
         $this->webhook = $webhook;
@@ -39,10 +45,10 @@ abstract class MessageAbstract implements MessageInterface {
     }
 
     /**
-     * Creates a new message instance for the given webhook.
+     * Creates a new message content for the given webhook and event path, assigning the result to the `message` property.
      *
      * @abstract
-     * @return self
+     * @return void
      */
     abstract protected function create();
 
@@ -60,7 +66,7 @@ abstract class MessageAbstract implements MessageInterface {
                 'content' => json_encode($data)
             )
         );
-        $context  = stream_context_create($options);
+        $context = stream_context_create($options);
         $result = file_get_contents($this->webhook->url, false, $context);
 
         return 
@@ -72,7 +78,8 @@ abstract class MessageAbstract implements MessageInterface {
     /**
      * Sends the message to the configured webhook and handles the response.
      *
-     * This method calls the `webhookCall()` method to send the message to the configured webhook. If the webhook call is successful, it calls the `successResponse()` method. If the webhook call fails, it calls the `failedResponse()` method.
+     * This method calls the `webhookCall()` method to send the message to the configured webhook. If the webhook call is
+     * successful, it calls the `successResponse()` method. If the webhook call fails, it calls the `failedResponse()` method.
      *
      * @return void
      */

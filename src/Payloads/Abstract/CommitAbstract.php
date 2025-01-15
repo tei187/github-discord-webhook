@@ -7,6 +7,18 @@ use tei187\GitDisWebhook\Traits\PayloadUsesBranch;
 use tei187\GitDisWebhook\Traits\PayloadUsesPusher;
 use tei187\GitDisWebhook\Traits\PayloadUsesSender;
 
+/**
+ * Represents an abstract class for handling commit-related payloads from a GitHub webhook.
+ * This class extends `PayloadAbstract`.
+ *
+ * The `$commits` property holds an array of the commits associated with the GitHub webhook request.
+ * The `$forced` property indicates whether the push was a forced push.
+ * 
+ * @abstract
+ * @uses \tei187\GitDisWebhook\Traits\PayloadUsesBranch
+ * @uses \tei187\GitDisWebhook\Traits\PayloadUsesPusher
+ * @uses \tei187\GitDisWebhook\Traits\PayloadUsesSender
+ */
 abstract class CommitAbstract extends PayloadAbstract {
     use PayloadUsesPusher,
         PayloadUsesSender,

@@ -6,6 +6,12 @@ use tei187\GitDisWebhook\Handlers\PayloadResolver;
 use tei187\GitDisWebhook\Handlers\ResponseHandler;
 use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
 
+/**
+ * Provides a factory for creating payload instances based on the provided event.
+ *
+ * The PayloadFactory is responsible for resolving the appropriate payload class for a given event and creating an instance of
+ * that class with the provided payload data.
+ */
 class PayloadFactory
 {
     /**

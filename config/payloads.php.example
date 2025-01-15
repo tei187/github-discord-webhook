@@ -7,6 +7,15 @@
  */
 
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Payloads specification
+    |--------------------------------------------------------------------------
+    | Array of arrays, where indexes form a path of event type -> category ->
+    | action, ending with a class handling a specific payload path.
+    */
+    
     'push'    => [
         'commit' => \tei187\GitDisWebhook\Payloads\Push\Commit::class,
         'tag'    => \tei187\GitDisWebhook\Payloads\Push\Tag::class,

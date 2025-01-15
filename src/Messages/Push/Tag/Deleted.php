@@ -4,6 +4,9 @@ namespace tei187\GitDisWebhook\Messages\Push\Tag;
 
 use tei187\GitDisWebhook\Messages\MessageAbstract;
 
+/**
+ * This class extends `MessageAbstract` and provides a method to create message for `Ppsh.tag.deleted` event.
+ */
 class Deleted extends MessageAbstract {
     
     /**

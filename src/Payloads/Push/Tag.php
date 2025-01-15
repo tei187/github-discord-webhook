@@ -5,6 +5,9 @@ namespace tei187\GitDisWebhook\Payloads\Push;
 use tei187\GitDisWebhook\Handlers\ResponseHandler;
 use tei187\GitDisWebhook\Payloads\Abstract\TagAbstract;
 
+/**
+ * This class extends `TagAbstract` and provides a method to parse a payload and return a `Tag` object.
+ */
 class Tag extends TagAbstract {
     public function parse(string $payload): self {
         $decoded = json_decode($payload);

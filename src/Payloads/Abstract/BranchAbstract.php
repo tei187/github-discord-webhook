@@ -7,6 +7,15 @@ use tei187\GitDisWebhook\Traits\PayloadUsesBranch;
 use tei187\GitDisWebhook\Traits\PayloadUsesPusher;
 use tei187\GitDisWebhook\Traits\PayloadUsesSender;
 
+/**
+ * Represents an abstract class for handling branch-related payloads.
+ * This class extends the `PayloadAbstract` class.
+ *
+ * @abstract
+ * @uses \tei187\GitDisWebhook\Traits\PayloadUsesBranch
+ * @uses \tei187\GitDisWebhook\Traits\PayloadUsesPusher
+ * @uses \tei187\GitDisWebhook\Traits\PayloadUsesSender
+ */
 abstract class BranchAbstract extends PayloadAbstract {
     use PayloadUsesBranch,
         PayloadUsesPusher,
@@ -22,7 +31,7 @@ abstract class BranchAbstract extends PayloadAbstract {
      * @param object $decoded The decoded JSON payload.
      * @return self
      */
-    public function makeAction(object $decoded): ?string {
+    protected function makeAction(object $decoded): ?string {
         $action = $decoded->created ? 'created' : null;
         $action = $decoded->deleted ? 'deleted' : $action;
 

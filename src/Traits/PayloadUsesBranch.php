@@ -17,7 +17,7 @@ trait PayloadUsesBranch {
      * @param object $decoded The decoded payload data.
      * @return ?string
      */
-    public static function makeBranch(object $decoded): ?string {
+    protected static function makeBranch(object $decoded): ?string {
         return explode('/', $decoded->ref)[2] ?: null;
     }
 }

@@ -4,6 +4,9 @@ namespace tei187\GitDisWebhook\Messages\Push\Tag;
 
 use tei187\GitDisWebhook\Messages\MessageAbstract;
 
+/**
+ * This class extends `MessageAbstract` and provides a method to create message for `push.tag.created` event.
+ */
 class Created extends MessageAbstract {
     
     /**

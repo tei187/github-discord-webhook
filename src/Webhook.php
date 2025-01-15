@@ -15,6 +15,8 @@ use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
  * Represents a profile for a Discord webhook associated with a GitHub repository.
  * The `Profile` class encapsulates the URL, GitHub secret, and list of repositories associated with a webhook.
  * It also provides methods for validating the webhook request signature and setting the request object.
+ * 
+ * @uses tei187\GitDisWebhook\Traits\UsesMagicGetter;
  */
 class Webhook implements WebhookInterface {
     use UsesMagicGetter;
@@ -45,7 +47,6 @@ class Webhook implements WebhookInterface {
         protected ?PayloadInterface $payload = null,
         protected ?array  $overrides = null,
     ) {
-
         // set payload
         $this->setPayload($payload);
 
@@ -73,7 +74,7 @@ class Webhook implements WebhookInterface {
      * @param PayloadInterface $payload The request object to set.
      * @return $this The current instance of the Webhook class profile.
      */
-    final public function setPayload(PayloadInterface $payload): self {
+    public final function setPayload(PayloadInterface $payload): self {
         $this->payload = $payload;
 
         if($this->validateSignature() === false) {
@@ -88,7 +89,7 @@ class Webhook implements WebhookInterface {
      *
      * @return true|void True if the profile is valid, otherwise ReponseHandler void.
      */
-    final public function validateProfile(): bool {
+    public final function validateProfile(): bool {
         match(null) {
             $this->url    => ResponseHandler::send("Webhook not configured properly. Discord URL is required.", "error", 500),
             $this->secret => ResponseHandler::send("Webhook not configured properly. Secret is required.", "error", 500),
@@ -103,7 +104,7 @@ class Webhook implements WebhookInterface {
      *
      * @return bool|void True if the signature is valid, false otherwise.
      */
-    final public function validateSignature(): bool {
+    public final function validateSignature(): bool {
         // check if repo is allowed to be handled by webhook profile
         if(!empty($this->repos)) {
             if(!in_array($this->payload->repo->fullname, $this->repos)) {
@@ -127,7 +128,7 @@ class Webhook implements WebhookInterface {
      *
      * @return bool|void True if the event payload is allowed, false otherwise.
      */
-    final public function validateEvent(): bool {
+    public final function validateEvent(): bool {
         $path = $this->payload->getDottedPath();
 
         // check if override is set

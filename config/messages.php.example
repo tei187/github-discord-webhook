@@ -7,6 +7,15 @@
  */
 
 return [
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Messages specification
+    |--------------------------------------------------------------------------
+    | Array of arrays, where indexes form a path of event type -> category ->
+    | action, ending with a class handling a specific message path.
+    */
+
     'push' => [
         'commit' => \tei187\GitDisWebhook\Messages\Push\Commit::class,
         'tag' => [

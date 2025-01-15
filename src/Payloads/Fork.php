@@ -5,6 +5,9 @@ namespace tei187\GitDisWebhook\Payloads;
 use tei187\GitDisWebhook\Handlers\ResponseHandler;
 use tei187\GitDisWebhook\Payloads\Abstract\ForkAbstract;
 
+/**
+ * This class extends `ForkAbstract` and provides a method to parse a payload and return a `Fork` object.
+ */
 class Fork extends ForkAbstract {
     public function parse(string $payload): self {
         $decoded = json_decode($payload);

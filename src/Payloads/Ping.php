@@ -5,6 +5,9 @@ namespace tei187\GitDisWebhook\Payloads;
 use tei187\GitDisWebhook\Handlers\ResponseHandler;
 use tei187\GitDisWebhook\Payloads\Abstract\PingAbstract;
 
+/**
+ * This class extends `PingAbstract` and provides a method to parse a payload and return a `Ping` object.
+ */
 class Ping extends PingAbstract {
     public function parse(string $payload): self {
         $decoded = json_decode($payload);
