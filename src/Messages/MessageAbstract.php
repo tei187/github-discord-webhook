@@ -28,6 +28,7 @@ abstract class MessageAbstract implements MessageInterface {
     
     /**
      * The webhook instance that the message will be sent to.
+     * Shared object reference with wrapping service class.
      *
      * @var WebhookInterface
      */
@@ -36,11 +37,13 @@ abstract class MessageAbstract implements MessageInterface {
     /**
      * Constructs a new instance of the message class, associating it with the provided webhook.
      *
-     * @param WebhookInterface $webhook The webhook instance that the message will be sent to. If not provided or error,
-     *                                  the message will not be able to be sent.
+     * @param WebhookInterface|null $webhook The webhook instance that the message will be sent to. If not provided or error,
+     *                                       the message will not be able to be sent.
      */
-    function __construct(WebhookInterface $webhook) {
-        $this->webhook = $webhook;
+    function __construct(?WebhookInterface $webhook = null) {
+        if($webhook !== null) {
+            $this->webhook = $webhook;
+        }
         $this->create();
     }
 
@@ -75,6 +78,11 @@ abstract class MessageAbstract implements MessageInterface {
                 : false;
     }
 
+    public function setWebhook(?WebhookInterface $webhook): self {
+        $this->webhook = $webhook;
+        return $this;
+    }
+
     /**
      * Sends the message to the configured webhook and handles the response.
      *
@@ -84,8 +92,9 @@ abstract class MessageAbstract implements MessageInterface {
      * @return void
      */
     public function send(): void {
-        if($this->webhook->allowed !== true) {
-            ResponseHandler::send("Payload received but not allowed to send to channel due to webhook's config.", "success", 200);
+
+        if($this->webhook === null) {
+            throw new \Exception("Webhook is not set for the message.");
         }
 
         $this->sent = $this->webhookCall();

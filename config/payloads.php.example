@@ -1,27 +1,36 @@
 <?php
 
 /**
- * Configuration for the message classes.
- * 
- * These should correspond with the event name in the GitHub webhook payload.
+ * Configuration for the message classes per event.
  */
 
 return [
 
     /*
     |--------------------------------------------------------------------------
-    | Payloads specification
+    | Service identification
     |--------------------------------------------------------------------------
-    | Array of arrays, where indexes form a path of event type -> category ->
-    | action, ending with a class handling a specific payload path.
+    | Index key name of the service handling the payload events, has to match
+    | the name in `services.php` registry.
     */
-    
-    'push'    => [
-        'commit' => \tei187\GitDisWebhook\Payloads\Push\Commit::class,
-        'tag'    => \tei187\GitDisWebhook\Payloads\Push\Tag::class,
-        'branch' => \tei187\GitDisWebhook\Payloads\Push\Branch::class,
-    ],
-    'fork'=> \tei187\GitDisWebhook\Payloads\Fork::class,
-    'ping' => \tei187\GitDisWebhook\Payloads\Ping::class,
-    'release' => \tei187\GitDisWebhook\Payloads\Release::class,
+
+    'github' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | Payloads specification
+        |--------------------------------------------------------------------------
+        | Array of arrays, where indexes form a path of event type -> category ->
+        | action, ending with a class handling a specific payload path.
+        */
+        
+        'push'    => [
+            'commit' => \tei187\GitDisWebhook\Payloads\Push\Commit::class,
+            'tag'    => \tei187\GitDisWebhook\Payloads\Push\Tag::class,
+            'branch' => \tei187\GitDisWebhook\Payloads\Push\Branch::class,
+        ],
+        'fork'=> \tei187\GitDisWebhook\Payloads\Fork::class,
+        'ping' => \tei187\GitDisWebhook\Payloads\Ping::class,
+        'release' => \tei187\GitDisWebhook\Payloads\Release::class,
+    ]
 ];

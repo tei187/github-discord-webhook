@@ -4,6 +4,8 @@ namespace tei187\GitDisWebhook\Handlers;
 
 /**
  * Handles HTTP responses for the webhook.
+ * 
+ * @package tei187\GitDisWebhook\Handlers
  */
 class ResponseHandler
 {

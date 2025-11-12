@@ -17,6 +17,8 @@ namespace tei187\GitDisWebhook\Helpers;
  * timestamp and the specified log level.
  * 
  * **SAY ALL YOU WANT - this is THE debugging tool!**
+ * 
+ * @package tei187\GitDisWebhook\Helpers
  */
 class Logger {
     

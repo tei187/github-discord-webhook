@@ -2,6 +2,11 @@
 
 namespace tei187\GitDisWebhook\Helpers;
 
+/**
+ * Provides a set of utility methods for working with Markdown formatting.
+ * 
+ * @package tei187\GitDisWebhook\Helpers
+ */
 class Markdown {
     /**
      * Converts a string with newline characters into an array of lines.

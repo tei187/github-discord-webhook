@@ -5,3 +5,5 @@
 /config/messages.php
 /config/payloads.php
 /config/allowed.php
+/config/services.php
+/config/profiles.php

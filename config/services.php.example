@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * Holds services index list and detection rules.
+ */
+return [
+
+    /*
+    |----------------------------------------------------------------------
+    | Services index list
+    |----------------------------------------------------------------------
+    | A registry of all available services, per class name.
+    */
+
+    'registry' => [
+        \tei187\GitDisWebhook\Services\GitHub\GitHubService::class
+    ],
+    
+    /*
+    |----------------------------------------------------------------------
+    | Service detection rules
+    |----------------------------------------------------------------------
+    | Rules for detecting incoming webhook requests and mapping them to
+    | the appropriate service class.
+    | This typically involves inspecting the request headers, method, and
+    | origin to determine the correct service.
+    |
+    | Each service class is associated with an array of rules.
+    | Supported rule types:
+    | - headers: An associative array of required headers that must be present.
+    | - method: The HTTP request method (e.g., POST, GET).
+    | - origin: An array of allowed origin domains.
+    | - values_contain: An associative array of header values that must contain
+    |   specific substrings.
+    | - values_match: An associative array of header values that must match exactly.
+    */
+
+    'detectors' => [
+        'github' => [
+            'headers' => [
+                'HTTP_X_GITHUB_EVENT' => true
+            ],
+            'method' => 'POST',
+            'origin' => [
+                'github.com',
+                'api.github.com'
+            ],
+            'values_contain' => [
+                'HTTP_USER_AGENT' => 'GitHub-Hookshot'
+            ],
+            'values_match' => [],
+        ]
+    ],
+];

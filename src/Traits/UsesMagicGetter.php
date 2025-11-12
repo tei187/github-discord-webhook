@@ -7,10 +7,10 @@ namespace tei187\GitDisWebhook\Traits;
  */
 trait UsesMagicGetter {
     /**
-     * Retrieves the value of the specified property from the object.
+     * Retrieves the value of the specified, non-static property from the object.
      *
      * @param string $param The name of the property to retrieve.
-     * @return mixed The value of the specified property, or null if the property does not exist.
+     * @return mixed The value of the specified, non-static property, or null if the property does not exist.
      */
     function __get($param) {
         if(isset($this->$param)) {

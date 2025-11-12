@@ -10,7 +10,11 @@ namespace tei187\GitDisWebhook\Enums;
 enum ConfigKeys: string
 {
     case ALLOWED  = 'allowed';
-    case CONFIG   = 'config';
+    //case CONFIG   = 'config';
     case MESSAGES = 'messages';
+    case PAYLOADS = 'payloads';
+    case PROFILES = 'profiles';
+    case PROFILES_DEFAULTS = 'profiles_defaults';
+    case SERVICES = 'services';
     case WEBHOOKS = 'webhooks';
 }

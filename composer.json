@@ -12,7 +12,10 @@
             "email": "bonk.piotr@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=8.2",
+        "ext-json": "*"
+    },
     "scripts": {
         "default-config": "php scripts/rename_example_files.php",
         "default-config-dry": "php scripts/rename_example_files.php --dry-run"

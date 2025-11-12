@@ -1,0 +1,27 @@
+<?php
+
+namespace tei187\GitDisWebhook\Platform\Github\Payloads\Push;
+
+use tei187\GitDisWebhook\Handlers\ResponseHandler;
+use tei187\GitDisWebhook\Platform\Github\Payloads\Abstract\TagAbstract;
+
+/**
+ * This class extends `TagAbstract` and provides a method to parse a payload and return a `Tag` object.
+ */
+class Tag extends TagAbstract {
+    protected function parse(string $payload): void {
+        $decoded = json_decode($payload);
+
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $this->plain   = (string) $payload;
+            $this->repo    = (object) self::makeRepo($decoded);
+            $this->pusher  = (object) self::makePusher($decoded);
+            $this->sender  = (object) self::makeSender($decoded);
+            $this->tagName = (string) self::makeTagName($decoded);
+            $this->action  = (string) self::makeAction($decoded);
+            return;
+        }
+
+        ResponseHandler::send("The provided payload is not valid JSON.", 'error', 422);
+    }
+}

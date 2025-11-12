@@ -1,0 +1,99 @@
+<?php
+
+/**
+ * Configuration for webhook profiles.
+ * 
+ * The webhook name should match the path parameter in the profile URL.
+ */
+return [
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Profile specification
+    |--------------------------------------------------------------------------
+    | Array of arrays, where index is the name of the webhook and value is an
+    | array with keys 'url', 'secret', 'repos', 'services', 'webhook'
+    | and 'overrides'.
+    */
+
+    'webhook-name' => [
+        'webhook' => [
+            /*
+            |----------------------------------------------------------------------
+            | Webhook URL
+            |----------------------------------------------------------------------
+            | The URL provided through webhook while registering. For Discord,
+            | typically formatted similarily to:
+            | https://discord.com/api/webhooks/xxx/yyy
+            |
+            | Required parameter.
+            */
+            'url' => 'your-webhook-url',
+
+            /*
+            |----------------------------------------------------------------------
+            | Secret code
+            |----------------------------------------------------------------------
+            | A secret string used to validate payloads and authorize things on
+            | platforms's side.
+            |
+            | Required parameter.
+            */
+            'secret' => 'your-secret',
+
+            /*
+            |----------------------------------------------------------------------
+            | Secret code
+            |----------------------------------------------------------------------
+            | Direct class assignment which should handle the webhook further on.
+            | By default set to `"auto"` which will cause autodetection of applicable
+            | webhook per current target URL. If set, will use the one specifiedinstead.
+            */
+            'class' => "auto",
+        ],
+
+        /*
+        |----------------------------------------------------------------------
+        | Services list
+        |----------------------------------------------------------------------
+        | Array of defined services handling the specific platform, i.e. GitHub.
+        | Can also be a string "auto", in which case it will match to any
+        | recognizable service, without filtering.
+        |
+        | If not set (null or empty array), it will accept every recognized
+        | platform to form a service container.
+        */
+        'services' => "auto",
+
+        /*
+        |----------------------------------------------------------------------
+        | Repository list
+        |----------------------------------------------------------------------
+        | Array of repo names allowed to send event hooks to current webhook
+        | profile. Each element should be a string, formatted as below:
+        | 'account/repository-name'
+        |
+        | If not set (null or empty array), it will accept every call from
+        | every repository which points to specific webhook. Exists mainly for
+        | GitHub, but can be adapated for other similar solutions.
+        */
+        'repos' => [
+            //
+        ],
+
+        /*
+        |----------------------------------------------------------------------
+        | Event processing allowance
+        |----------------------------------------------------------------------
+        | List of overrides of of event acceptance and messages classes.
+        | Must be the equivalent to structures in 'allowed.php' and 
+        | 'messages.php' configuration files. So, 'allowed' will have the same
+        | event path and end with boolean value, while 'messages' will have
+        | the same event path and end with class name of end point message.
+        */
+        'overrides' => [
+            'allowed' => [],
+            'messages' => [],
+        ]
+    ]
+];

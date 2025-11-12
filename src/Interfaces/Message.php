@@ -6,6 +6,8 @@ use tei187\GitDisWebhook\Handlers\ResponseHandler;
 
 /**
  * Defines the interface for a message that can be sent, with success and failure responses.
+ * 
+ * @package tei187\GitDisWebhook\Interfaces
  */
 interface Message {
     /**

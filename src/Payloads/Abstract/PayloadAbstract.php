@@ -5,45 +5,31 @@ namespace tei187\GitDisWebhook\Payloads\Abstract;
 use tei187\GitDisWebhook\Handlers\ArrayHandler;
 use tei187\GitDisWebhook\Handlers\ConfigHandler;
 use tei187\GitDisWebhook\Traits\UsesMagicGetter;
-use tei187\GitDisWebhook\Traits\PayloadUsesRepo;
 use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
 
 
 /**
- * Defines the base abstract class for handling GitHub webhook payloads.
+ * Defines the base abstract class for handling webhook payloads.
  * This class provides common properties and methods for working with GitHub webhook payloads.
  * Implements `PayloadInterface`.
  * 
  * @abstract
- * @uses \tei187\GitDisWebhook\Traits\PayloadUsesRepo
  * @uses \tei187\GitDisWebhook\Traits\UsesMagicGetter
+ * 
+ * @package tei187\GitDisWebhook\Payloads\Abstract
  */
 abstract class PayloadAbstract implements PayloadInterface {
-    use UsesMagicGetter,
-        PayloadUsesRepo;
+    use UsesMagicGetter;
 
     /**
-     * @var string The raw JSON payload of the GitHub webhook request.
+     * @var string The raw JSON payload of the webhook request.
      */
     protected string $plain;
-    
-    /**
-     * @var string The type of GitHub event that triggered the webhook.
-     */
-    protected string $event;
-    
-    /**
-     * @var ?string *(optional)* The subject of the GitHub webhook payload, mainly for `push` events (`commit` or `tag` or `branch`).
-     *              Whether it is used or not will depend on the abstraction classes and applicability.
-     */
-    protected ?string $subject;
 
     /**
-     * @var ?string *(optional)* The type of action that triggered the GitHub webhook. It is considered the action applied to the
-     *              subject or event itself (e.g. `created`). Whether it is used or not will depend on the abstraction classes and
-     *              applicability.
+     * @var array|object The parsed data from the webhook payload.
      */
-    protected ?string $action;
+    protected array|object $parsed;
 
     /**
      * @var bool Indicates whether the payload is allowed to be processed in messaging.
@@ -51,12 +37,18 @@ abstract class PayloadAbstract implements PayloadInterface {
     protected bool $allowed;
 
     /**
+     * @var string|null The origin of the payload, if applicable.
+     */
+    protected ?string $origin;
+
+    /**
      * Constructs a new payload object with an optional JSON payload.
      *
      * @param string|null $payload The JSON payload to be parsed, or `null` if no payload is provided.
      */
     public function __construct( ?string $payload = null ) {
-        $payload ? $this->parse($payload) : null;
+        $payload ? $this->setData($payload) : null;
+        $this->setOrigin();
     }
 
     /**
@@ -69,7 +61,7 @@ abstract class PayloadAbstract implements PayloadInterface {
      * @return $this The current instance of the PayloadAbstract class.
      * @deprecated 1.1.0 Event validation is now handled by Webhook class, due to implementation of overrides configs.
      */
-    public function checkAllowed(): self {
+    final public function checkAllowed(): self {
         $config = ConfigHandler::load(\tei187\GitDisWebhook\Enums\ConfigKeys::ALLOWED);
 
         // path construction
@@ -88,38 +80,77 @@ abstract class PayloadAbstract implements PayloadInterface {
         return $this;
     }
 
-    /**
-     * Gets a dotted path representation of the event, subject, and action properties.
-     *
-     * This method constructs a dotted path string by filtering out any null or empty values from the event, subject, and
-     * action properties, and then joining the remaining values with periods.
-     *
-     * @return string The dotted path representation of the event, subject, and action properties.
-     */
-    public final function getDottedPath(): string {
+    public function getHeader(string $header): ?string {
+        // Try getallheaders() if available (Apache, Nginx, CLI, FastCGI, ...)
+        if (function_exists('getallheaders')) {
+            $headers = getallheaders();
+            foreach ($headers as $key => $value) {
+                if (strcasecmp($key, $header) === 0) {
+                    return $value;
+                }
+            }
+        }
+        
+        // Fallback: look for HTTP_... in $_SERVER
+        $key = 'HTTP_' . strtoupper(str_replace('-', '_', $header));
+        if (isset($_SERVER[$key])) {
+            return $_SERVER[$key];
+        }
+
+        // Special cases (CONTENT_TYPE, CONTENT_LENGTH, etc.)
+        $special = strtoupper(str_replace('-', '_', $header));
+        if (isset($_SERVER[$special])) {
+            return $_SERVER[$special];
+        }
+
+        return null;
+    }
+
+    final public function getRawBody(): string {
+        return $this->plain;
+    }
+
+    final public function getPlain(): string {
+        return $this->plain;
+    }
+
+    final public function getDottedEventPath(): string {
         $path = $this->getEventPath();
         return implode('.', array_map('trim', $path));
     }
 
-    /**
-     * Gets an array representation of the event, subject, and action properties.
-     * This method returns an array representation of the event, subject, and action properties, filtering out any null or empty values.
-     * @return array An array representation of existing (not null) event, subject, and action properties.
-     * @see getDottedPath()
-     */
-    public final function getEventPath(): array {
-        return ArrayHandler::filterNulls( [ $this->event, $this->subject, $this->action ] );
+    public function setOrigin(): self {
+        $this->origin = $this->getHeader('X-Forwarded-For') 
+            ?? $this->getHeader('X-Real-IP') 
+            ?? $_SERVER['REMOTE_ADDR'] 
+            ?? null;
+        return $this;
     }
-        
+
+    final public function setData(string $payload): self {
+        $this->plain = $payload;
+        $this->parse($payload);
+        return $this;
+    }
+
+    
     // abstract methods
         /**
-         * Parses the given payload string and returns the current instance of the PayloadAbstract class.
+        * Parses the given payload string and returns the current instance of the PayloadAbstract class.
+        *
+        * This method is responsible for decoding the payload string and validating the resulting data structure.
+        * If the payload is valid, it sets appropriate properties on the current instance of the PayloadAbstract class.
+        *
+        * @param string $payload The payload string to be parsed.
+        * @return void
+        */
+        abstract protected function parse(string $payload): void;
+
+        /**
+         * Sets the event path components.
          *
-         * This method is responsible for decoding the payload string and validating the resulting data structure.
-         * If the payload is valid, it sets appropriate properties on the current instance of the PayloadAbstract class.
-         *
-         * @param string $payload The payload string to be parsed.
+         * @param array $event An array containing the event path to coincide with message routing.
          * @return $this The current instance of the PayloadAbstract class.
          */
-        abstract public function parse(string $payload): self;
+        abstract public function setEvent(array $event): self;
 }

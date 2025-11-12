@@ -38,7 +38,6 @@ This project implements a webhook integration between GitHub and Discord. It all
 ## More settings
 All configuration options are located in `config` directory. There you can set up classes for handlinng messages, payloads and webhooks. Also, there's a configuration file setting allowed events and actions.
 
-
 ## Usage
 
 Once set up, you'll receive notifications in your Discord server for events concerning:
@@ -53,6 +52,16 @@ Future plans include:
 - Issues
 - Comments
 - And more!
+
+## Diagram
+
+```mermaid
+flowchart TD
+    A[GitHub Repository] -->|Webhook Event| B[Webhook Script]
+    B -->|Filter by Repo & Event| C[Config Files]
+    C -->|Prepare Payload| D[Discord Webhook URL]
+    D -->|Send Notification| E[Discord Channel]
+```
 
 ## License
 

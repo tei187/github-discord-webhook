@@ -7,7 +7,10 @@ use tei187\GitDisWebhook\Enums\PathExtracts;
 /**
  * Provides a set of utility methods for parsing and extracting information from URLs.
  * 
- * Generally speaking, it's a wrapper for `parse_url` function, with some specificity towards webhook use case in this package.
+ * Generally speaking, it's a wrapper for `parse_url` function, with some specificity
+ * towards webhook use case in this package.
+ * 
+ * @package tei187\GitDisWebhook\Helpers
  */
 class UrlParser
 {
@@ -15,7 +18,6 @@ class UrlParser
      * Extracts the webhook name from a given URL.
      *
      * @param string $url The URL to extract the webhook name from.
-     * 
      * @return string|null|false The extracted webhook name.
      */
     public static function extractWebhookName(string $url)
@@ -34,7 +36,6 @@ class UrlParser
      * Extracts the domain from the given URL.
      *
      * @param string $url The URL to extract the domain from.
-     * 
      * @return string|null|false The extracted domain.
      */
     public static function extractDomain(string $url)
@@ -46,7 +47,6 @@ class UrlParser
      * Extracts the protocol (e.g. "http", "https") from the given URL.
      *
      * @param string $url The URL to extract the protocol from.
-     * 
      * @return string|null|false The extracted protocol.
      */
     public static function extractProtocol(string $url)
@@ -58,7 +58,6 @@ class UrlParser
      * Extracts the port from the given URL.
      *
      * @param string $url The URL to extract the port from.
-     * 
      * @return string|null|false The extracted port.
      */
     public static function extractPort(string $url)
@@ -70,7 +69,6 @@ class UrlParser
      * Extracts the path from the given URL.
      *
      * @param string $url The URL to extract the path from.
-     * 
      * @return string|null|false The extracted path.
      */
     public static function extractPath(string $url)
@@ -82,7 +80,6 @@ class UrlParser
      * Extracts the query string from the given URL.
      *
      * @param string $url The URL to extract the query string from.
-     * 
      * @return string|null|false The extracted query string.
      */
     public static function extractQuery(string $url)
@@ -94,7 +91,6 @@ class UrlParser
      * Extracts the fragment (the part after the '#' symbol) from the given URL.
      *
      * @param string $url The URL to extract the fragment from.
-     * 
      * @return string|null|false The extracted fragment.
      */
     public static function extractFragment(string $url)
@@ -106,7 +102,6 @@ class UrlParser
      * Extracts the username from the given URL.
      *
      * @param string $url The URL to extract the username from.
-     * 
      * @return string|null|false The extracted username.
      */
     public static function extractUser(string $url)
@@ -118,7 +113,6 @@ class UrlParser
      * Extracts the password from the given URL.
      *
      * @param string $url The URL to extract the password from.
-     * 
      * @return string|null|false The extracted password.
      */
     public static function extractPass(string $url)
@@ -131,7 +125,6 @@ class UrlParser
      *
      * @param string       $url  The URL to extract information from.
      * @param PathExtracts $type The type of information to extract from the URL.
-     * 
      * @return string|array|null|false The extracted information, or array if $type is not set, or `null` if
      *                                 the type is not recognized, or boolean `false` if url is malformed.
      */

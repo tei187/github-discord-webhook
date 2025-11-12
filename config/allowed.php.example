@@ -1,37 +1,55 @@
 <?php
 
 /**
- * Configuration for excluded events and/or actions.
- * The keys are the event types, and the values are arrays of actions that should be allowed to be sent to Discord webhook if `true`.
+ * Configuration for verifiable service-specific events, whether they can be processed or not.
  */
 return [
-    'push' => [
-        'tag' => [
+    /*
+    |--------------------------------------------------------------------------
+    | Service identification
+    |--------------------------------------------------------------------------
+    | Index key name of the service handling the payload events, has to match
+    | the name in `services.php` registry.
+    */
+    'github' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | Event specification and routing
+        |--------------------------------------------------------------------------
+        | Array of arrays, where indexes form a path of event type -> category ->
+        | action, ending with a boolean stating whether it is allowed or not. Paths
+        | can go deeper, this is just an example for GitHub.
+        */
+
+        'push' => [
+            'tag' => [
+                'created' => false,
+                'deleted' => false,
+            ],
+            'branch' => [
+                'created' => true,
+                'deleted' => false,
+            ],
+            'commit' => true,
+        ],
+        'ping' => true,
+        'fork' => true,
+        'release' => [
+            'published' => true,
+            'released' => false,
             'created' => false,
             'deleted' => false,
         ],
-        'branch' => [
-            'created' => true,
-            'deleted' => false,
-        ],
-        'commit' => true,
-    ],
-    'ping' => true,
-    'fork' => true,
-    'release' => [
-        'published' => true,
-        'released' => false,
-        'created' => false,
-        'deleted' => false,
-    ],
-    'pull_request' => [
-        'opened' => true,
-        'closed' => true,
-        'reopened' => false,
-        'review_requested' => true,
-        'review_request_removed' => false,
-        'locked' => false,
-        'unlocked' => false,
-        'ready_for_review' => true,
-    ],
+        'pull_request' => [
+            'opened' => true,
+            'closed' => true,
+            'reopened' => false,
+            'review_requested' => true,
+            'review_request_removed' => false,
+            'locked' => false,
+            'unlocked' => false,
+            'ready_for_review' => true,
+        ]
+    ]
 ];

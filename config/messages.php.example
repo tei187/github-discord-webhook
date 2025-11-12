@@ -7,31 +7,44 @@
  */
 
 return [
-    
+
     /*
     |--------------------------------------------------------------------------
-    | Messages specification
+    | Service identification
     |--------------------------------------------------------------------------
-    | Array of arrays, where indexes form a path of event type -> category ->
-    | action, ending with a class handling a specific message path.
+    | Index key name of the service handling the payload events, has to match
+    | the name in `services.php` registry.
     */
 
-    'push' => [
-        'commit' => \tei187\GitDisWebhook\Messages\Push\Commit::class,
-        'tag' => [
-            'created' => \tei187\GitDisWebhook\Messages\Push\Tag\Created::class,
-            'deleted' => \tei187\GitDisWebhook\Messages\Push\Tag\Deleted::class,
+    'github' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | Messages specification
+        |--------------------------------------------------------------------------
+        | Array of arrays, where indexes form a path of event type -> category ->
+        | action, ending with a class handling a specific message path. Paths can
+        | go deeper, this is just an example for GitHub.
+        */
+
+        'push' => [
+            'commit' => \tei187\GitDisWebhook\Platform\GitHub\Messages\Push\Commit::class,
+            'tag' => [
+                'created' => \tei187\GitDisWebhook\Platform\GitHub\Messages\Push\Tag\Created::class,
+                'deleted' => \tei187\GitDisWebhook\Platform\GitHub\Messages\Push\Tag\Deleted::class,
+            ],
+            'branch' => [
+                'created' => \tei187\GitDisWebhook\Platform\GitHub\Messages\Push\Branch\Created::class,
+                'deleted' => \tei187\GitDisWebhook\Platform\GitHub\Messages\Push\Branch\Deleted::class,
+            ]
         ],
-        'branch' => [
-            'created' => \tei187\GitDisWebhook\Messages\Push\Branch\Created::class,
-            'deleted' => \tei187\GitDisWebhook\Messages\Push\Branch\Deleted::class,
+        'ping' => \tei187\GitDisWebhook\Platform\GitHub\Messages\Ping::class,
+        'fork' => null,
+        'release' => [
+            'published' => \tei187\GitDisWebhook\Platform\GitHub\Messages\Release\Published::class,
+            'released'  => null,
+            'created'   => null,
+            'deleted'   => null,
         ]
-    ],
-    'fork' => \tei187\GitDisWebhook\Messages\Fork::class,
-    'release' => [
-        'published' => \tei187\GitDisWebhook\Messages\Release\Published::class,
-        'released'  => null,
-        'created'   => null,
-        'deleted'   => null,
-    ],
+    ]
 ];
