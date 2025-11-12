@@ -4,7 +4,7 @@ namespace tei187\GitDisWebhook\Factories;
 
 use tei187\GitDisWebhook\ValueObjects\Config;
 use tei187\GitDisWebhook\Helpers\PlatformDetector;
-use tei187\GitDisWebhook\Interfaces\Service as ServiceInterface;
+use tei187\GitDisWebhook\Interfaces\ServiceInterface;
 
 /** 
  * Factory class to create service instances based on detected platform.

@@ -106,7 +106,6 @@ readonly class Config {
         }
 
         // validate services
-
             $servicesClasses = $this->services['registry'] ?? [];
             $servicesIdentifiers = array_keys($servicesClasses);
 

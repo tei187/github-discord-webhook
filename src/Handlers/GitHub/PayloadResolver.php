@@ -3,7 +3,7 @@
 namespace tei187\GitDisWebhook\Handlers\GitHub;
 
 use tei187\GitDisWebhook\Handlers\ResponseHandler;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
 
 /**
  * Resolves and processes the payload received from Git-based webhooks.

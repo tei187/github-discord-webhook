@@ -5,7 +5,7 @@ namespace tei187\GitDisWebhook\Handlers;
 use tei187\GitDisWebhook\Enums\ConfigKeys;
 use tei187\GitDisWebhook\Enums\OverrideType;
 use tei187\GitDisWebhook\Handlers\ArrayHandler;
-use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\WebhookInterface;
 use tei187\GitDisWebhook\ValueObjects\Config;
 
 /**

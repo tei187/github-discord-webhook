@@ -6,9 +6,9 @@ use tei187\GitDisWebhook\ValueObjects\Config;
 use tei187\GitDisWebhook\Services\Abstract\ServiceAbstract;
 use tei187\GitDisWebhook\Factories\GitHubPayloadFactory;
 use tei187\GitDisWebhook\Factories\GitHubMessageFactory;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
-use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
-use tei187\GitDisWebhook\Interfaces\Message as MessageInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\MessageInterface;
 
 /**
  * Service class for handling GitHub webhook requests.

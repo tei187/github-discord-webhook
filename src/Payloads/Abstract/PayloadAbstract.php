@@ -2,11 +2,8 @@
 
 namespace tei187\GitDisWebhook\Payloads\Abstract;
 
-use tei187\GitDisWebhook\Handlers\ArrayHandler;
-use tei187\GitDisWebhook\Handlers\ConfigHandler;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
 use tei187\GitDisWebhook\Traits\UsesMagicGetter;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
-
 
 /**
  * Defines the base abstract class for handling webhook payloads.
@@ -27,9 +24,9 @@ abstract class PayloadAbstract implements PayloadInterface {
     protected string $plain;
 
     /**
-     * @var array|object The parsed data from the webhook payload.
+     * @var object The parsed data from the webhook payload.
      */
-    protected array|object $parsed;
+    protected object $parsed;
 
     /**
      * @var bool Indicates whether the payload is allowed to be processed in messaging.
@@ -49,35 +46,6 @@ abstract class PayloadAbstract implements PayloadInterface {
     public function __construct( ?string $payload = null ) {
         $payload ? $this->setData($payload) : null;
         $this->setOrigin();
-    }
-
-    /**
-     * Checks if the payload is allowed to be processed based on the configuration.
-     *
-     * This method filters the payload properties (event, subject, action) to create a dot-notation path, and then checks the
-     * corresponding value in the payloads.php configuration file. If the value is a boolean, it is used to set the $allowed
-     * property. Otherwise, $allowed is set to false.
-     *
-     * @return $this The current instance of the PayloadAbstract class.
-     * @deprecated 1.1.0 Event validation is now handled by Webhook class, due to implementation of overrides configs.
-     */
-    final public function checkAllowed(): self {
-        $config = ConfigHandler::load(\tei187\GitDisWebhook\Enums\ConfigKeys::ALLOWED);
-
-        // path construction
-        $path = array_filter( 
-            [ $this->event, $this->subject, $this->action, ], 
-            function($value) { return $value !== null && $value !== ''; }
-        );
-        $path = implode('.', array_map('trim', $path));
-
-        // path check
-        $check = ArrayHandler::getValueByDotNotation($config, $path);
-
-        // assign outcome
-        $this->allowed = is_bool($check) ? $check : false;
-
-        return $this;
     }
 
     public function getHeader(string $header): ?string {
@@ -133,7 +101,6 @@ abstract class PayloadAbstract implements PayloadInterface {
         return $this;
     }
 
-    
     // abstract methods
         /**
         * Parses the given payload string and returns the current instance of the PayloadAbstract class.
@@ -146,11 +113,5 @@ abstract class PayloadAbstract implements PayloadInterface {
         */
         abstract protected function parse(string $payload): void;
 
-        /**
-         * Sets the event path components.
-         *
-         * @param array $event An array containing the event path to coincide with message routing.
-         * @return $this The current instance of the PayloadAbstract class.
-         */
         abstract public function setEvent(array $event): self;
 }

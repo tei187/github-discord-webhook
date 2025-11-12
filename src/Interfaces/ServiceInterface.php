@@ -3,17 +3,17 @@
 namespace tei187\GitDisWebhook\Interfaces;
 
 use tei187\GitDisWebhook\ValueObjects\Config;
-use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
-use tei187\GitDisWebhook\Interfaces\Message as MessageInterface;
-use tei187\GitDisWebhook\Interfaces\MessageFactory as MessageFactoryInterface;
+use tei187\GitDisWebhook\Interfaces\WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\MessageInterface;
+use tei187\GitDisWebhook\Interfaces\MessageFactoryInterface;
 
 /**
  * Defines the interface for a service that handles webhook requests.
  * 
  * @package tei187\GitDisWebhook\Interfaces
  */
-interface Service {
+interface ServiceInterface {
     /**
     * Validates the provided payload.
     *

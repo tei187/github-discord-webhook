@@ -33,6 +33,6 @@ class Validator {
                 : self::isJsonString($payload);
         }
 
-        return $payload instanceof \tei187\GitDisWebhook\Interfaces\Payload; 
+        return $payload instanceof \tei187\GitDisWebhook\Interfaces\PayloadInterface;
     }
 }

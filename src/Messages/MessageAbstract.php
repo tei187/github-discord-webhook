@@ -3,8 +3,8 @@
 namespace tei187\GitDisWebhook\Messages;
 
 use tei187\GitDisWebhook\Handlers\ResponseHandler;
-use tei187\GitDisWebhook\Interfaces\Message as MessageInterface;
-use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\MessageInterface;
+use tei187\GitDisWebhook\Interfaces\WebhookInterface;
 
 /**
  * Defines the base abstract class for all message types that can be sent to a webhook.

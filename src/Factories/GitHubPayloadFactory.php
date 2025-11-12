@@ -4,8 +4,8 @@ namespace tei187\GitDisWebhook\Factories;
 
 use tei187\GitDisWebhook\Handlers\ResponseHandler;
 use tei187\GitDisWebhook\Handlers\GitHub\PayloadResolver as GitHubPayloadResolver;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
-use tei187\GitDisWebhook\Interfaces\PayloadFactory as PayloadFactoryInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadFactoryInterface;
 
 /**
  * Provides a factory for creating payload instances based on the provided event.

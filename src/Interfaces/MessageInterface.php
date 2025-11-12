@@ -9,7 +9,7 @@ use tei187\GitDisWebhook\Handlers\ResponseHandler;
  * 
  * @package tei187\GitDisWebhook\Interfaces
  */
-interface Message {
+interface MessageInterface {
     /**
      * Sends the message.
      */

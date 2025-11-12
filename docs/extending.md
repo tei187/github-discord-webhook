@@ -21,9 +21,9 @@ namespace tei187\GitDisWebhook\Services;
 
 use tei187\GitDisWebhook\ValueObjects\Config;
 use tei187\GitDisWebhook\Services\Abstract\ServiceAbstract;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
-use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
-use tei187\GitDisWebhook\Interfaces\Message as MessageInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\MessageInterface;
 
 class NewService extends ServiceAbstract {
     final protected $name = "my_new_service";       // unique name for your service
@@ -67,7 +67,7 @@ Template for a custom payload class:
 namespace tei187\GitDisWebhook\Payloads;
 use tei187\GitDisWebhook\ValueObjects\Config;
 use tei187\GitDisWebhook\Payloads\Abstract\PayloadAbstract;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
 
 class NewPayload extends PayloadAbstract {
 
@@ -110,7 +110,7 @@ Template for a custom webhook class:
 namespace tei187\GitDisWebhook\Webhooks;
 
 use tei187\GitDisWebhook\Webhooks\Abstract\WebhookAbstract;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
 use tei187\GitDisWebhook\ValueObjects\Config;
 
 class NewWebhook extends WebhookAbstract {

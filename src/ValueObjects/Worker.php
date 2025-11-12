@@ -6,8 +6,8 @@ namespace tei187\GitDisWebhook\ValueObjects;
 use tei187\GitDisWebhook\Factories\ServiceFactory;
 use tei187\GitDisWebhook\Factories\WebhookFactory;
 // interfaces
-use tei187\GitDisWebhook\Interfaces\Service as ServiceInterface;
-use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\ServiceInterface;
+use tei187\GitDisWebhook\Interfaces\WebhookInterface;
 // other
 use tei187\GitDisWebhook\Helpers\UrlParser;
 use tei187\GitDisWebhook\Traits\UsesMagicGetter;

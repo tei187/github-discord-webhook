@@ -5,7 +5,7 @@ namespace tei187\GitDisWebhook\Factories;
 use tei187\GitDisWebhook\Helpers\UrlParser;
 use tei187\GitDisWebhook\ValueObjects\Config;
 use tei187\GitDisWebhook\Helpers\WebhookDetector;
-use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\WebhookInterface;
 
 /**
  * Provides a factory for creating webhook instances based on the provided name.

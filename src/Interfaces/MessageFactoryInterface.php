@@ -2,9 +2,9 @@
 
 namespace tei187\GitDisWebhook\Interfaces;
 
-use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
-use tei187\GitDisWebhook\Interfaces\Message as MessageInterface;
+use tei187\GitDisWebhook\Interfaces\WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\MessageInterface;
 use tei187\GitDisWebhook\ValueObjects\Config;
 
 /**
@@ -15,7 +15,7 @@ use tei187\GitDisWebhook\ValueObjects\Config;
  *
  * @package tei187\GitDisWebhook\Factories
  */
-interface MessageFactory
+interface MessageFactoryInterface
 {
     /**
      * Constructs a new MessageFactory instance.
@@ -31,7 +31,7 @@ interface MessageFactory
      * @param string           $event   The event that triggered the message.
      * @param PayloadInterface $payload The payload data of Payload interface.
      * @param WebhookInterface $webhook The webhook data of Webhook interface.
-     * @return MessageInterface|void The message object of Message interface, or ResponseHandler void.
+     * @return MessageInterface|null The message object of Message interface, or ResponseHandler void.
      */
-    public function createMessage($event, PayloadInterface $payload, WebhookInterface $webhook): MessageInterface;
+    public function createMessage($event, PayloadInterface $payload, WebhookInterface $webhook): ?MessageInterface;
 }

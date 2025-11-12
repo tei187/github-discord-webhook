@@ -2,9 +2,9 @@
 
 namespace tei187\GitDisWebhook\Webhooks\Abstract;
 
-use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
-use tei187\GitDisWebhook\Interfaces\Service as ServiceInterface;
+use tei187\GitDisWebhook\Interfaces\WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\ServiceInterface;
 use tei187\GitDisWebhook\Traits\UsesMagicGetter;
 use tei187\GitDisWebhook\ValueObjects\Config;
 

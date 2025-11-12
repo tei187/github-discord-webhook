@@ -30,7 +30,7 @@ return [
                     'X-GitHub-Event',
                 ],
                 'header value match' => [
-                    'User-Agent' => 'GitHub-Hookshot/*',
+                    'User-Agent' => 'GitHub-Hookshot',
                 ],
                 'request method' => 'POST',
             ],

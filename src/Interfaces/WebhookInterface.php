@@ -2,15 +2,15 @@
 
 namespace tei187\GitDisWebhook\Interfaces;
 
-use tei187\GitDisWebhook\Interfaces\Service as ServiceInterface;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\ServiceInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
 
 /**
  * Defines the interface for a webhook handler.
  * 
  * @package tei187\GitDisWebhook\Interfaces
  */
-interface Webhook {
+interface WebhookInterface {
     /**
      * Checks if the webhook supports the given service.
      * 

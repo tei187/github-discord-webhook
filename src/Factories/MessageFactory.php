@@ -4,10 +4,10 @@ namespace tei187\GitDisWebhook\Factories;
 
 use tei187\GitDisWebhook\Handlers\ArrayHandler;
 use tei187\GitDisWebhook\Handlers\ResponseHandler;
-use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
-use tei187\GitDisWebhook\Interfaces\Message as MessageInterface;
-use tei187\GitDisWebhook\Interfaces\MessageFactory as MessageFactoryInterface;
+use tei187\GitDisWebhook\Interfaces\WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\MessageInterface;
+use tei187\GitDisWebhook\Interfaces\MessageFactoryInterface;
 use tei187\GitDisWebhook\ValueObjects\Config;
 
 /**
@@ -54,9 +54,9 @@ class MessageFactory implements MessageFactoryInterface
      * @param string           $event   The event that triggered the message.
      * @param PayloadInterface $payload The payload data of Payload interface.
      * @param WebhookInterface|null $webhook The webhook data of Webhook interface.
-     * @return MessageInterface|void The message object of Message interface, or ResponseHandler void.
+     * @return MessageInterface|null The message object of Message interface, or ResponseHandler void.
      */
-    public function createMessage($event, PayloadInterface $payload, ?WebhookInterface $webhook): MessageInterface
+    public function createMessage($event, PayloadInterface $payload, ?WebhookInterface $webhook): ?MessageInterface
     {
         // get payload dotted path of the event
         $path = $payload->getDottedEventPath();
@@ -72,5 +72,6 @@ class MessageFactory implements MessageFactoryInterface
         }
         
         ResponseHandler::send("No matching message class found for event: $event", "error", 422);
+        return null;
     }
 }

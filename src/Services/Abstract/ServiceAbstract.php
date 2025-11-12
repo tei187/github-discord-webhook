@@ -3,12 +3,12 @@
 namespace tei187\GitDisWebhook\Services\Abstract;
 
 use tei187\GitDisWebhook\ValueObjects\Config;
-use tei187\GitDisWebhook\Interfaces\Payload as PayloadInterface;
-use tei187\GitDisWebhook\Interfaces\Webhook as WebhookInterface;
-use tei187\GitDisWebhook\Interfaces\Service as ServiceInterface;
-use tei187\GitDisWebhook\Interfaces\Message as MessageInterface;
-use tei187\GitDisWebhook\Interfaces\PayloadFactory as PayloadFactoryInterface;
-use tei187\GitDisWebhook\Interfaces\MessageFactory as MessageFactoryInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\ServiceInterface;
+use tei187\GitDisWebhook\Interfaces\MessageInterface;
+use tei187\GitDisWebhook\Interfaces\PayloadFactoryInterface;
+use tei187\GitDisWebhook\Interfaces\MessageFactoryInterface;
 use tei187\GitDisWebhook\Factories\MessageFactory;
 use tei187\GitDisWebhook\Handlers\ArrayHandler;
 use tei187\GitDisWebhook\Traits\UsesMagicGetter;

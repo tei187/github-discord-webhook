@@ -7,7 +7,7 @@ namespace tei187\GitDisWebhook\Interfaces;
  * 
  * @package tei187\GitDisWebhook\Interfaces
  */
-interface Payload {
+interface PayloadInterface {
     /**
      * Gets the dotted path representation of the webhook event.
      *
@@ -41,14 +41,14 @@ interface Payload {
      * Sets the raw payload data and parses it.
      *
      * @param string $payload The raw JSON payload string.
-     * @return $this The current instance of the PayloadAbstract class.
+     * @return $this The current instance of the Payload class.
      */
     public function setData(string $payload): self;
 
     /**
      * Sets the origin of the payload, if applicable.
      *
-     * @return $this The current instance of the PayloadAbstract class.
+     * @return $this The current instance of the Payload class.
      */
     public function setOrigin(): self;
 
@@ -56,7 +56,7 @@ interface Payload {
      * Sets the event path components.
      *
      * @param array $event An array containing the event, subject, and action components.
-     * @return $this The current instance of the PayloadAbstract class.
+     * @return $this The current instance of the Payload class.
      */
     public function setEvent(array $event): self;
 }
