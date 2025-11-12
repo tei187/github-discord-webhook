@@ -30,7 +30,7 @@ Once the service is fully configured with the webhook, payload, and message temp
 
 ## X: Responses
 Application does respond in certain situations back to the caller. This is being handled by `\tei187\GitDisWebhook\Handlers\ResponsesHandler` static class, which is a simple ad hoc utility for managing HTTP responses in JSON format. Responses are limited to only certain situations, like successful payload reception, validation failures, unsupported services, etc. and do not cover internal errors of the script execution (wrong configuration, exceptions, wrong arguments, etc), which are expected to be handled by the server environment itself.
-Responses are structured in a consistent JSON format, containing at least a `status` field (boolean) and a `message` field (string). Additional data can be included in the response as needed.
+Responses are structured in a consistent JSON format, containing at least a `responseCode`, `type` and `message` fields.
 
 ## Workflow block diagram
 ```mermaid
