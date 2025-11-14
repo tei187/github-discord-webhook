@@ -15,17 +15,22 @@ class ResponseHandler
      * @param  string $message    The message to include in the JSON response.
      * @param  string $type       Type of response, lie "success" or "error".
      * @param  int    $statusCode The HTTP status code to use for the response.
+     * @param  mixed  $data       (optional) Additional data to include in the response.
      * @return never
      */
-    public static function send(string $message, string $type, int $statusCode)
+    public static function send(string $message, string $type, int $statusCode, mixed $data = null): never
     {
         header('Content-Type: application/json');
         http_response_code($statusCode);
-        echo json_encode([
+        $response = [
             'responseCode' => $statusCode,
             'type' => $type, 
             'message' => $message
-        ], JSON_PRETTY_PRINT);
+        ];
+        if ($data !== null) {
+            $response['data'] = $data;
+        }
+        echo json_encode($response, JSON_PRETTY_PRINT);
         exit;
     }
 }

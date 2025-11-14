@@ -27,7 +27,7 @@ class OverridesHandler {
      * 
      * @return array|bool|string|null Array, bool, string (depending on the type of override and path factors) or `null` if not found.
      */
-    public static function handle(WebhookInterface $webhook, ?Config $config = null, ?OverrideType $type = null) {
+    public static function handle(WebhookInterface $webhook, ?Config $config = null, ?OverrideType $type = null): array|bool|string|null {
         $config = $config ?? new Config();
         $overrides = self::load($webhook, $config);
 

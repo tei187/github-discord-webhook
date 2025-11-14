@@ -41,9 +41,13 @@ class PayloadResolver
      * @param  string       $payload        Plain text JSON payload from GitHub call.
      * @param  array        $payloadsConfig Array with configured payload classes.
      * @return ?string|void `null` if not found, class name if found, or `ResponseHandler` void due to lack of event name in header.
+     * 
+     * @todo rewrite to something more self-managable
      */
     public static function find(string $payload, array $payloadsConfig): ?string {
-        $_SERVER['HTTP_X_GITHUB_EVENT'] ?: ResponseHandler::send("No event provided in HTTP_X_GITHUB_EVENT header.", "error", 400);
+        if(!key_exists('HTTP_X_GITHUB_EVENT', $_SERVER)) {
+            throw new \InvalidArgumentException("No X-GitHub-Event header found in the request.");
+        }
 
         $payload = json_decode($payload);
 

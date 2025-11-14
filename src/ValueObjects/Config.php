@@ -87,7 +87,27 @@ readonly class Config {
      * @throws \InvalidArgumentException If class references in the configuration are invalid.
      */
     public function validate(): bool {
-        // basic validation to ensure required keys exist
+        // validate individual sections
+        // throw errors on any failure
+        $this->validateKeys();
+        $this->validateServices();
+        $this->validateWebhooks();
+        $this->validateProfiles();
+        $this->validatePayloads();
+        $this->validateMessages();
+            
+        // all validations passed
+        return true;
+    }
+
+    /**
+     * Validates that all required configuration keys are present.
+     * 
+     * @param bool $throw Whether to throw exceptions on validation errors. Default is true.
+     * @return bool True if all required keys are present.
+     * @throws \ErrorException If any required configuration key is missing.
+     */
+    public function validateKeys($throw = true): bool {
         $requiredKeys = [
             'allowed',
             'messages',
@@ -98,108 +118,190 @@ readonly class Config {
             'webhooks',
         ];
 
-        // check for required keys
         foreach ($requiredKeys as $key) {
-            if (!array_key_exists($key, $this->all())) {
-                throw new \ErrorException("Missing required config key: {$key}. Check if appropriate config files exist in 'config' directory.");
+            if (!property_exists($this, $key)) {
+                if($throw) {
+                    throw new \ErrorException("Missing required configuration key: {$key}. Check if appropriate config files exist in 'config' directory.");
+                }
+                return false;
             }
         }
 
-        // validate services
-            $servicesClasses = $this->services['registry'] ?? [];
-            $servicesIdentifiers = array_keys($servicesClasses);
+        return true;
+    }
 
-            // check if services registry classes exist
-            foreach ($servicesClasses as $serviceName => $class) {
-                if (!class_exists($class)) {
+    /**
+     * Validates the services configuration to ensure required keys and class references exist.
+     * 
+     * @param bool $throw Whether to throw exceptions on validation errors. Default is true.
+     * @return bool True if the services configuration is valid.
+     * @throws \InvalidArgumentException If class references in the services configuration are invalid.
+     */
+    public function validateServices($throw = true): bool {
+        $servicesClasses = $this->services['registry'] ?? [];
+        $servicesIdentifiers = array_keys($servicesClasses);
+
+        // check if services registry classes exist
+        foreach ($servicesClasses as $serviceName => $class) {
+            if (!class_exists($class)) {
+                if($throw) {
                     throw new \InvalidArgumentException("Service class does not exist: {$class} (registered as: {$serviceName})");
                 }
+                return false;
             }
+        }
 
-            // check if services detectors reference valid service identifiers
-            foreach ($this->services['detectors'] as $serviceName => $config) {
-                if (!in_array($serviceName, $servicesIdentifiers, true)) {
+        // check if services detectors reference valid service identifiers
+        foreach ($this->services['detectors'] as $serviceName => $config) {
+            if (!in_array($serviceName, $servicesIdentifiers, true)) {
+                if($throw) {
                     throw new \InvalidArgumentException("Service detector references undefined service identifier: {$serviceName}");
                 }
+                return false;
             }
+        }
 
-        // validate webhooks
-            $webhooksClasses = $this->webhooks['registry'] ?? [];
-            $webhooksIdentifiers = array_keys($webhooksClasses);
+        return true;
+    }
 
-            // check if webhooks registry classes exist
-            foreach ($webhooksClasses as $webhookName => $class) {
-                if (!class_exists($class)) {
-                    throw new \InvalidArgumentException("Webhook class does not exist: {$class} (registered as: {$webhookName})");
-                }
-            }
+    /**
+     * Validates the profiles configuration to ensure referenced services and webhooks exist.
+     * 
+     * @param bool $throw Whether to throw exceptions on validation errors. Default is true.
+     * @return bool True if the profiles configuration is valid.
+     * @throws \InvalidArgumentException If referenced services or webhooks in the profiles configuration are invalid.
+     */
+    public function validateProfiles($throw = true): bool {
+        $servicesClasses = $this->services['registry'] ?? [];
+        $servicesIdentifiers = array_keys($servicesClasses);
 
-            // check if webhooks detectors reference valid webhook identifiers
-            foreach ($this->webhooks['detectors'] as $webhookName => $config) {
-                if (!in_array($webhookName, $webhooksIdentifiers, true)) {
-                    throw new \InvalidArgumentException("Webhook detector references undefined webhook identifier: {$webhookName}");
-                }
-            }
+        $webhooksClasses = $this->webhooks['registry'] ?? [];
+        $webhooksIdentifiers = array_keys($webhooksClasses);
 
-        // validate profiles
-            foreach ($this->profiles as $profileName => $profileConfig) {
-                // check if services in profile reference valid service identifiers or is a service class name
-                if (isset($profileConfig['services']) && is_array($profileConfig['services'])) {
-                    foreach ($profileConfig['services'] as $serviceIdentifier) {
-                        if (!in_array($serviceIdentifier, $servicesIdentifiers, true) && !in_array($serviceIdentifier, $servicesClasses, true)) {
+        foreach ($this->profiles as $profileName => $profileConfig) {
+            // check if services in profile reference valid service identifiers or is a service class name
+            if (isset($profileConfig['services']) && is_array($profileConfig['services'])) {
+                foreach ($profileConfig['services'] as $serviceIdentifier) {
+                    if (!in_array($serviceIdentifier, $servicesIdentifiers, true) && !in_array($serviceIdentifier, $servicesClasses, true)) {
+                        if($throw) {
                             throw new \InvalidArgumentException("Profile '{$profileName}' references undefined service identifier: {$serviceIdentifier}");
                         }
+                        return false;
                     }
                 }
+            }
 
-                // check if webhook in profile references valid webhook identifier or is a webhook class name
-                if (isset($profileConfig['webhook']['class'])) {
-                    $webhookIdentifier = $profileConfig['webhook']['class'];
+            // check if webhook in profile references valid webhook identifier or is a webhook class name
+            if (isset($profileConfig['webhook']['class'])) {
+                $webhookIdentifier = $profileConfig['webhook']['class'];
 
-                    if (!in_array($webhookIdentifier, $webhooksIdentifiers, true) && !in_array($webhookIdentifier, $webhooksClasses, true)) {
+                if (!in_array($webhookIdentifier, $webhooksIdentifiers, true) && !in_array($webhookIdentifier, $webhooksClasses, true)) {
+                    if($throw) {
                         throw new \InvalidArgumentException("Profile '{$profileName}' references undefined webhook identifier: {$webhookIdentifier}");
                     }
+                    return false;
                 }
+            }
 
-                // check url validity
-                if (isset($profileConfig['webhook']['url']) && !filter_var($profileConfig['webhook']['url'], FILTER_VALIDATE_URL)) {
+            // check url validity
+            if (isset($profileConfig['webhook']['url']) && !filter_var($profileConfig['webhook']['url'], FILTER_VALIDATE_URL)) {
+                if($throw) {
                     throw new \InvalidArgumentException("Profile '{$profileName}' has invalid webhook URL: {$profileConfig['webhook']['url']}");
                 }
+                return false;
             }
+        }
 
-        // validate payloads
-            $payloadsTemp = $this->payloads;
-            $payloadsClasses = [];
-            array_walk_recursive($payloadsTemp, function($value) use (&$payloadsClasses) {
-                $payloadsClasses[] = $value;
-            });
-            $payloadsClasses = array_unique($payloadsClasses);
+        return true;
+    }
 
-            // check if payload classes exist
-            foreach ($payloadsClasses as $class) {
-                if (!class_exists($class)) {
+    /**
+     * Validates the webhooks configuration to ensure required keys and class references exist.
+     * 
+     * @param bool $throw Whether to throw exceptions on validation errors. Default is true.
+     * @return bool True if the webhooks configuration is valid.
+     * @throws \InvalidArgumentException If class references in the webhooks configuration are invalid.
+     */
+    public function validateWebhooks($throw = true): bool {
+        $webhooksClasses = $this->webhooks['registry'] ?? [];
+        $webhooksIdentifiers = array_keys($webhooksClasses);
+
+        // check if webhooks registry classes exist
+        foreach ($webhooksClasses as $webhookName => $class) {
+            if (!class_exists($class)) {
+                if($throw) {
+                    throw new \InvalidArgumentException("Webhook class does not exist: {$class} (registered as: {$webhookName})");
+                }
+                return false;
+            }
+        }
+
+        // check if webhooks detectors reference valid webhook identifiers
+        foreach ($this->webhooks['detectors'] as $webhookName => $config) {
+            if (!in_array($webhookName, $webhooksIdentifiers, true)) {
+                if($throw) {
+                    throw new \InvalidArgumentException("Webhook detector references undefined webhook identifier: {$webhookName}");
+                }
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates the payloads configuration to ensure class references exist.
+     * 
+     * @param bool $throw Whether to throw exceptions on validation errors. Default is true.
+     * @return bool True if the payloads configuration is valid.
+     * @throws \InvalidArgumentException If class references in the payloads configuration are invalid.
+     */
+    public function validatePayloads($throw = true): bool {
+        $payloadsTemp = $this->payloads;
+        $payloadsClasses = [];
+        array_walk_recursive($payloadsTemp, function($value) use (&$payloadsClasses) {
+            $payloadsClasses[] = $value;
+        });
+        $payloadsClasses = array_unique($payloadsClasses);
+
+        // check if payload classes exist
+        foreach ($payloadsClasses as $class) {
+            if (!class_exists($class)) {
+                if ($throw) {
                     throw new \InvalidArgumentException("Payload class does not exist: {$class} (payloads config).");
-                    return false;
                 }
+                return false;
             }
+        }
 
-        // validate messages
-            $messagesTemp = $this->messages;
-            $messagesClasses = [];
-            array_walk_recursive($messagesTemp, function($value) use (&$messagesClasses) {
-                $messagesClasses[] = $value;
-            });
-            $messagesClasses = array_filter(array_unique($messagesClasses));
+        return true;
+    }
 
-            // check if message classes exist
-            foreach ($messagesClasses as $class) {
-                if (!class_exists($class)) {
+    /**
+     * Validates the messages configuration to ensure class references exist.
+     * 
+     * @param bool $throw Whether to throw exceptions on validation errors. Default is true.
+     * @return bool True if the messages configuration is valid.
+     * @throws \InvalidArgumentException If class references in the messages configuration are invalid.
+     */
+    public function validateMessages($throw = true): bool {
+        $messagesTemp = $this->messages;
+        $messagesClasses = [];
+        array_walk_recursive($messagesTemp, function($value) use (&$messagesClasses) {
+            $messagesClasses[] = $value;
+        });
+        $messagesClasses = array_filter(array_unique($messagesClasses));
+
+        // check if message classes exist
+        foreach ($messagesClasses as $class) {
+            if (!class_exists($class)) {
+                if ($throw) {
                     throw new \InvalidArgumentException("Message class does not exist: {$class} (messages config).");
-                    return false;
                 }
+                return false;
             }
-            
-        // all validations passed
+        }
+
         return true;
     }
 }
