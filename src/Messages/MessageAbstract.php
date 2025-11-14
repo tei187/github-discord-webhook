@@ -92,7 +92,6 @@ abstract class MessageAbstract implements MessageInterface {
      * @return void
      */
     public function send(): void {
-
         if($this->webhook === null) {
             throw new \Exception("Webhook is not set for the message.");
         }

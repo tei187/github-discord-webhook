@@ -21,7 +21,10 @@ The outcome payload will be dependable on which properties are defined by the se
 
 After the payload is set, it will be added to the service instance, as well as be injected to the webhook instance for further processing.
 
-### 2.3: Message templating
+### 2.3 Payload validation
+Before proceeding to message templating, the service will validate whether the received payload source (repository and branch, if any is applicable) and event is supported by the webhook profile. This is done by calling the `supportsService()` method on the injected webhook and `validateEvent()` method on the service instance. If the source or event are not supported, the process will be halted, and a response will be sent back to the caller indicating that the payload has been received but not processed due to restrictions in the webhook's configuration.
+
+### 2.4: Message templating
 Finally, the worker will call the `setMessage()` method on the service instance, which uses `\tei187\GitDisWebhook\Factories\MessageFactory` factory. This method is responsible for determining which message template to use for the current request. The message template is determined based on the detection rules defined in the `config/messages.php` configuration file, pointing to a specific event path. Once the appropriate message template is identified, it is set on the service instance.
 Like with payload handling, message templating can be either automatically detected or explicitly assigned by the service.
 

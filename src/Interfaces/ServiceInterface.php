@@ -98,6 +98,21 @@ interface ServiceInterface {
      */
     public function setMessageThroughFactory(string $event): self;
 
-    
-    
+    /**
+     * Gets the repository name from the payload in config.
+     * 
+     * Adaptable for each service/platform implementation. If such structure is not applicable, return `null`.
+     *
+     * @return string|null The repository name, or null if not available.
+     */
+    public function getRepositoryName(): ?string;
+
+    /**
+     * Gets the repository branch from the payload in config.
+     * 
+     * Adaptable for each service/platform implementation. If such structure is not applicable, return `null`.
+     *
+     * @return string|null The repository branch, or null if not available.
+     */
+    public function getRepositoryBranch(): ?string;
 }

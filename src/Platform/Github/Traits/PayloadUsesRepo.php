@@ -8,7 +8,7 @@ namespace tei187\GitDisWebhook\Platform\Github\Traits;
 trait PayloadUsesRepo {
     /**
      * @var \stdClass The name of the GitHub repository that triggered the webhook. 
-     *                If the payload is parsed, it will have the following properties: `name`, `fullname`, `url`.
+     *                If the payload is parsed, it will have the following properties: `name`, `fullname`, `url` and `branch`.
      */
     protected object $repo;
 
@@ -23,6 +23,7 @@ trait PayloadUsesRepo {
         $repo->name     = (string) $decoded->repository->name;
         $repo->fullname = (string) strtolower($decoded->repository->full_name);
         $repo->url      = (string) $decoded->repository->html_url;
+        $repo->branch   = (string) str_replace('refs/heads/', '', $decoded->ref ?? '');
         
         return $repo;
     }

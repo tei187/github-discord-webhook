@@ -21,7 +21,7 @@ class Commit extends MessageAbstract {
         $pushType = ($this->webhook->payload->forced ? "**forced** " : "") . "push";
 
         $message = "New {$pushType} to **[{$this->webhook->payload->repo->fullname}](https://github.com/{$this->webhook->payload->repo->fullname})**"
-                 . " on branch **{$this->webhook->payload->branch}**"
+                 . " on branch **{$this->webhook->payload->repo->branch}**"
                  . " by *[{$this->webhook->payload->pusher->name}](https://github.com/{$this->webhook->payload->pusher->name})*\n"
                  . "{$commits_count} new commit(s):\n";
                 

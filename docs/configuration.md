@@ -34,7 +34,7 @@ Each profile is defined with a unique name, which will also be the end-point of 
     - `secret`: (you may think it's "optional", but you're wrong about it) used for validating payloads.
     - `class`: (optional) a direct webhook class to use (otherwise it will try to automatically detect it).
 - `services`: (optional) an array of service class names that the profile supports. If left empty, all detectable services are supported.
-- `repos`: (optional) an associative array mapping repository platforms to arrays of repository names. If left empty, all validated payloads from all repositories will be accepted.
+- `repos`: (optional) an associative array mapping repository platforms to arrays of repository names. If left empty, all validated payloads from all repositories will be accepted. For GitHub, you can also specify branches using `author/repo:branch` or `author/repo@branch` format, not case-sensitive.
 
 ### Services
 `config/services.php`
@@ -43,7 +43,7 @@ This file defines the services that the application can detect and handle. Each 
 
 It holds an array with two main keys: `registry` and `detectors`.
 
-- `registry`: This key maps service names to their corresponding service class implementations.
+- `registry`: This key maps service names to their corresponding service class implementations. Keys have to be unique and should match the service names used in profiles.
 - `detectors`: This key contains an array of rules for detecting services based on incoming HTTP requests. Each service has its own set of rules, which may include:
   - `headers`: An associative array of required headers that must be present in the request.
   - `method`: The HTTP request method (e.g., POST, GET).
@@ -58,7 +58,7 @@ This file configures the webhooks that the application will use to send notifica
 
 It holds an array with two main keys: `registry` and `detectors`.
 
-- `registry`: This key maps webhook names to their corresponding class implementations.
+- `registry`: This key maps webhook names to their corresponding class implementations. Keys have to be unique and should match the webhook names used in profiles.
 - `detectors`: This key contains an array of rules for detecting webhooks based on target URL. Each webhook has its own set of rules, which may include:
   - `domain`: An array of allowed target domains.
   - `url`: An array of allowed target URLs to match against.

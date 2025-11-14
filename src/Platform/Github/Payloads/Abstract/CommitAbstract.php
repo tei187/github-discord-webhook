@@ -3,7 +3,6 @@
 namespace tei187\GitDisWebhook\Platform\Github\Payloads\Abstract;
 
 use tei187\GitDisWebhook\Payloads\Abstract\GitHubPayloadAbstract;
-use tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesBranch;
 use tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesPusher;
 use tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesRepo;
 use tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesSender;
@@ -16,7 +15,6 @@ use tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesSender;
  * The `$forced` property indicates whether the push was a forced push.
  * 
  * @abstract
- * @uses \tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesBranch
  * @uses \tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesPusher
  * @uses \tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesSender
  * @uses \tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesRepo
@@ -24,7 +22,6 @@ use tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesSender;
 abstract class CommitAbstract extends GitHubPayloadAbstract {
     use PayloadUsesPusher,
         PayloadUsesSender,
-        PayloadUsesBranch,
         PayloadUsesRepo;
 
     /**

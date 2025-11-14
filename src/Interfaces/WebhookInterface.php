@@ -22,10 +22,11 @@ interface WebhookInterface {
     /**
      * Checks if the webhook supports the given repository.
      * 
-     * @param string $repository The repository to check.
+     * @param string $repository The repository to check (optional).
+     * @param string $branch The branch to check (optional).
      * @return bool True if the repository is supported, false otherwise.
      */
-    public function supportsRepository(string $repository): bool;
+    public function supportsRepository(string $serviceName, ?string $repository = null, ?string $branch = null): bool;
 
     /**
      * Sends the payload to the webhook URL.

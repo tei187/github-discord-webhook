@@ -15,7 +15,7 @@ class Created extends MessageAbstract {
      * @return void
      */
     protected function create(): void {
-        $this->message = "New branch **\"{$this->webhook->payload->branch}\"** created in **[{$this->webhook->payload->repo->fullname}](https://github.com/{$this->webhook->payload->repo->fullname})**"
+        $this->message = "New branch **\"{$this->webhook->payload->repo->branch}\"** created in **[{$this->webhook->payload->repo->fullname}](https://github.com/{$this->webhook->payload->repo->fullname})**"
                        . " by *[{$this->webhook->payload->pusher->name}](https://github.com/{$this->webhook->payload->pusher->name})*.";
     }
 }

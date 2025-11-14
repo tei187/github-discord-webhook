@@ -234,6 +234,8 @@ abstract class ServiceAbstract implements ServiceInterface {
         }
 
     abstract public function validatePayload(?string $payload = null): bool;
+    abstract public function getRepositoryName(): ?string;
+    abstract public function getRepositoryBranch(): ?string;
 
     public function validateEvent(): bool {
         $compiledEvents = ArrayHandler::array_merge_deep_overwrite(

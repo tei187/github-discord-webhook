@@ -16,7 +16,6 @@ class Branch extends BranchAbstract {
             $this->plain  = (string) $payload;
             $this->repo   = (object) self::makeRepo($decoded);
             $this->action = (string) self::makeAction($decoded);
-            $this->branch = (string) self::makeBranch($decoded);
             $this->pusher = (object) self::makePusher($decoded);
             $this->sender = (object) self::makeSender($decoded);
             return;

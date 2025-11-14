@@ -33,6 +33,9 @@ abstract class WebhookAbstract implements WebhookInterface {
         $this->validateConfig();
     }
   
+    /**
+     * @final
+     */
     final public function supportsService(ServiceInterface|string $service): bool {
         if($service instanceof ServiceInterface) {
             $service = $service::class;
@@ -46,20 +49,65 @@ abstract class WebhookAbstract implements WebhookInterface {
                is_subclass_of($service, ServiceInterface::class);
     }
     
-    final public function supportsRepository(string $repository): bool {
-        return empty($this->repos) || in_array($repository, $this->repos);
+    final public function supportsRepository(string $serviceName, ?string $repository = null, ?string $branch = null): bool {
+        $pool = $this->config->profiles[$this->name]['repos'][$serviceName] ??= [];
+
+        // if pool is empty or contains '*', allow all, or not respository specified
+        if (empty($pool) || in_array('*', $pool)) {
+            return true;
+        }
+
+        $variants = [];
+        // if repository is specified, add applicable repository variants
+        if($repository) {
+            $variants = array_merge($variants, [
+                $repository,
+                implode(":" , [$repository, "*"]),
+                implode("@" , [$repository, "*"]),
+            ]);
+
+            // additionally, if branch is specified, add repository:branch and repository@branch variants
+            if($branch) {
+                $variants = array_merge($variants, [
+                    implode(":" , [$repository, $branch]),
+                    implode("@" , [$repository, $branch]),
+                ]);
+            }
+        }
+
+        // map pool and variants to lowercase for case-insensitive comparison
+        $pool = array_map('strtolower', $pool);
+        $variants = array_map('strtolower', $variants);
+
+        // check if any variant is in the pool
+        foreach ($variants as $variant) {
+            if (in_array($variant, $pool)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
+    /**
+     * @final
+     */
     final public function setPayload(?PayloadInterface $payload): self {
         $this->payload = $payload;
         return $this;
     }
 
+    /**
+     * @final
+     */
     final public function setConfig(Config $config): self {
         $this->validateConfig($config);
         return $this;
     }
     
+    /**
+     * @final
+     */
     final protected function validateConfig(): void {
         $config = $this->config->profiles[$this->name];
 

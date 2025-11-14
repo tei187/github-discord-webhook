@@ -3,7 +3,6 @@
 namespace tei187\GitDisWebhook\Platform\Github\Payloads\Abstract;
 
 use tei187\GitDisWebhook\Payloads\Abstract\GitHubPayloadAbstract;
-use tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesBranch;
 use tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesPusher;
 use tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesRepo;
 use tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesSender;
@@ -13,14 +12,12 @@ use tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesSender;
  * This class extends the `PayloadAbstract` class.
  *
  * @abstract
- * @uses \tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesBranch
  * @uses \tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesPusher
  * @uses \tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesSender
  * @uses \tei187\GitDisWebhook\Platform\Github\Traits\PayloadUsesRepo
  */
 abstract class BranchAbstract extends GitHubPayloadAbstract {
-    use PayloadUsesBranch,
-        PayloadUsesPusher,
+    use PayloadUsesPusher,
         PayloadUsesSender,
         PayloadUsesRepo;
     

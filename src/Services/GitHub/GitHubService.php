@@ -58,8 +58,6 @@ class GitHubService extends ServiceAbstract {
         // instantiate payload factory
         $this->payloadFactory = new $this->payloadFactoryClass($this->config);
 
-        // reference repositories from config
-        $this->repositories = $this->config->services['github']['repositories'] ?? [];
         // reference messages from config
         $this->messages = $this->config->messages->github ?? [];
 
@@ -126,9 +124,18 @@ class GitHubService extends ServiceAbstract {
         /**
          * Gets the repository name from the payload.
          *
-         * @return string The repository name.
+         * @return string|null The repository name or `null`.
          */
-        public function getRepositoryName(): string {
-            return $this->payload->parsed['repository']['full_name'] ?? '';
+        public function getRepositoryName(): ?string {
+            return $this->payload->repo->fullname ?? null;
+        }
+
+        /**
+         * Gets the branch name from the payload.
+         *
+         * @return string|null The branch name or `null`.
+         */
+        public function getRepositoryBranch(): ?string {
+            return $this->payload->repo->branch ?? null;
         }
 }

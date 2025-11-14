@@ -121,7 +121,16 @@ class Worker {
         // assign payload to webhook
         $this->service->webhook->setPayload($this->service->payload);
 
-        // validate if payload is allowed for this webhook (event validation)
+        // validate if repository/branch is allowed for this webhook profile
+        if($this->service->webhook->supportsRepository(
+            $this->service->name,
+            $this->service->getRepositoryName() ?? null,
+            $this->service->getRepositoryBranch() ?? null
+           ) === false) {
+            ResponseHandler::send("Payload received but not allowed to send to channel due to repository restrictions in webhook's config.", "success", 200);
+        }
+
+        // validate if payload is allowed for this webhook profile (event validation)
         if($this->service->validateEvent()) {
             // message through factory
             $this->service->setMessageFactory();
@@ -137,5 +146,6 @@ class Worker {
             ResponseHandler::send("Payload received but not allowed to send to channel due to webhook's config.", "success", 200);
         }
 
+        return;
     }
 }

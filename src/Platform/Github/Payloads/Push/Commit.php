@@ -16,7 +16,6 @@ class Commit extends CommitAbstract {
             $this->plain   = (string) $payload;
             $this->commits = (array)  $decoded->commits;
             $this->forced  = (bool)   $decoded->forced;
-            $this->branch  = (string) self::makeBranch($decoded);
             $this->pusher  = (object) self::makePusher($decoded);
             $this->repo    = (object) self::makeRepo($decoded);
             return;

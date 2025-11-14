@@ -44,7 +44,7 @@ abstract class PayloadAbstract implements PayloadInterface {
      * @param string|null $payload The JSON payload to be parsed, or `null` if no payload is provided.
      */
     public function __construct( ?string $payload = null ) {
-        $payload ? $this->setData($payload) : null;
+        $this->setData($payload);
         $this->setOrigin();
     }
 
@@ -74,14 +74,23 @@ abstract class PayloadAbstract implements PayloadInterface {
         return null;
     }
 
+    /**
+     * @final
+     */
     final public function getRawBody(): string {
         return $this->plain;
     }
 
+    /**
+     * @final
+     */
     final public function getPlain(): string {
         return $this->plain;
     }
 
+    /**
+     * @final
+     */
     final public function getDottedEventPath(): string {
         $path = $this->getEventPath();
         return implode('.', array_map('trim', $path));
@@ -95,6 +104,9 @@ abstract class PayloadAbstract implements PayloadInterface {
         return $this;
     }
 
+    /**
+     * @final
+     */
     final public function setData(string $payload): self {
         $this->plain = $payload;
         $this->parse($payload);
