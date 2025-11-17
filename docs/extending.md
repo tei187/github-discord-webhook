@@ -26,9 +26,13 @@ use tei187\GitDisWebhook\Interfaces\WebhookInterface;
 use tei187\GitDisWebhook\Interfaces\MessageInterface;
 
 class NewService extends ServiceAbstract {
-    final protected $name = "my_new_service";       // unique name for your service
-    protected ?string $payloadFactoryClass = "..."; // set to your payload factory class
-    protected ?string $messageFactoryClass = "..."; // set to your message factory class
+    final protected $name = "my_new_service";      // unique name for your service, as will be defined as a key in service configs
+    protected ?string $payloadClass = null;        // set to your payload class if it is a one-fit-all structure (not using payload factory)
+    protected ?string $payloadFactoryClass = null; // set to your payload factory class
+    protected ?string $messageClass = null;        // set to your message class if it is a one-fit-all structure (not using message factory)
+    protected ?string $messageFactoryClass = null; // set to your message factory class
+    // factory properties are optional, as you can also set payload and message through setters
+    // or within the constructor
 
     public function __construct(?Config $config = null, ?PayloadInterface $payload = null, 
                                 ?MessageInterface $message = null, ?WebhookInterface $webhook = null)
@@ -46,6 +50,19 @@ class NewService extends ServiceAbstract {
     public function validateSignature(): bool {
         // implement your signature validation logic here if needed
         return true; // or false based on validation
+    }
+
+    // additionally, if your service/platform supports repository and branch use:
+    // (only if you plan to use repository/branch filtering per profile)
+
+    public function getRepositoryName(): ?string {
+        // implement your logic to extract repository name from payload if needed
+        return null; // or the repository name
+    }
+
+    public function getRepositoryBranch(): ?string {
+        // implement your logic to extract repository platform from payload if needed
+        return null; // or the repository platform
     }
 }
 ```
@@ -65,20 +82,19 @@ Steps to create a custom payload:
 Template for a custom payload class:
 ```php
 namespace tei187\GitDisWebhook\Payloads;
-use tei187\GitDisWebhook\ValueObjects\Config;
 use tei187\GitDisWebhook\Payloads\Abstract\PayloadAbstract;
 use tei187\GitDisWebhook\Interfaces\PayloadInterface;
 
 class NewPayload extends PayloadAbstract {
 
-    public function __construct(?Config $config = null) {
-        parent::__construct($config);
+    public function __construct(?string $payload = null) {
+        parent::__construct($payload);
         // additional initialization if needed
     }
 
     public function parse(): void {
         // implement your parsing logic here
-        // extract relevant information from $this->data and populate properties
+        // extract relevant information from $this->parsed or otherwise
     }
 
     public function setEvent(): self {
@@ -163,3 +179,180 @@ class NewMessage extends MessageAbstract {
     }
 }
 ```
+
+# Extension example
+
+Lets say you want to create a service for a simple payload and send a noticifcation to a Discord webhook. For this example, we will assume that there is no specific event coincided with this platform, and the payload structure is as follows:
+```json
+{
+    "checksum": "abc123",
+    "author": "user123",
+    "message": "This is a simple message."
+}
+```
+
+Given that, we can create the custom payload class as follows:
+```php
+namespace tei187\GitDisWebhook\Payloads;
+use tei187\GitDisWebhook\ValueObjects\Config;
+use tei187\GitDisWebhook\Payloads\Abstract\PayloadAbstract;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
+
+class SimplePayload extends PayloadAbstract {
+
+    protected ?string $event = "*"; // default event name for this payload, as there is no event specificity
+    protected object ;
+    protected ?string $message;
+    protected ?string $checksum;
+
+    public function __construct(?string $payload = null) {
+        parent::__construct($payload);
+    }
+
+    public function parse(string $payload): void {
+        // assign plain payload string
+        $this->plain = $payload;
+
+        // parse JSON payload into associative array
+        // and extract relevant information
+        $data = json_decode($payload, true);
+        $this->author = $data['author'] ?? null;
+        $this->message = $data['message'] ?? null;
+        $this->checksum = $data['checksum'] ?? null;
+    }
+
+    public function setEvent(): self {
+        $this->event = "*";
+        return $this;
+    }
+
+    public function getEvent(): array {
+        return [ $this->event ]; // return the event path as an array
+    }
+}
+```
+
+Next, we can create the custom service class, to handle this payload platform:
+```php
+namespace tei187\GitDisWebhook\Services;
+
+use tei187\GitDisWebhook\ValueObjects\Config;
+use tei187\GitDisWebhook\Services\Abstract\ServiceAbstract;
+use tei187\GitDisWebhook\Interfaces\PayloadInterface;
+use tei187\GitDisWebhook\Interfaces\WebhookInterface;
+use tei187\GitDisWebhook\Interfaces\MessageInterface;
+
+class SimpleService extends ServiceAbstract {
+    final protected $name = "simple_json";
+    protected ?string $payloadClass = \tei187\GitDisWebhook\Payloads\SimplePayload::class; // using our custom payload class
+    protected ?string $messageClass = \tei187\GitDisWebhook\Messages\NewMessage::class; // using our custom message class (implemented below)
+
+    public function __construct(?Config $config = null, ?PayloadInterface $payload = null, 
+                                ?MessageInterface $message = null, ?WebhookInterface $webhook = null)
+    {
+        parent::__construct($config, $payload, $message, $webhook);
+    }
+
+    public function validatePayload(): bool {
+        // we will just check if required fields are present
+        if (empty($this->payload->author) || empty($this->payload->message)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function validateSignature(): bool {
+        // we will verify the cheksum from payload
+        // for this example, let's assume we have a predefined expected checksum
+        $expectedChecksum = "abc123"; // example expected checksum
+        if ($this->payload->checksum !== $expectedChecksum) {
+            return false;
+        }
+        return true;
+    }
+
+    public function getRepositoryName(): ?string {
+        // this payload does not have repository information
+        return null;
+    }
+
+    public function getRepositoryBranch(): ?string {
+        // this payload does not have branch information
+        return null;
+    }
+}
+```
+
+Having both new service and payload, we can add them to configuration files accordingly:
+- `config/services.php`
+    ```php
+    // ...
+    'registry' => [
+        'simple_json' => \tei187\GitDisWebhook\Services\SimpleService::class,
+        // other services...
+    ],
+    'detectors' => [
+        'simple_json' => [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'method' => 'POST',
+            'origin' => [
+                'example.com',
+            ],
+        ],
+    ],
+    // ...
+    ```
+
+- `config/payloads.php`
+    ```php
+    // ...
+        'simple_service' => [
+            '*' => \tei187\GitDisWebhook\Payloads\SimplePayload::class,
+        ],
+    // ...
+    ```
+
+Finally, we can create the custom message template class:
+```php
+namespace tei187\GitDisWebhook\Messages;
+
+use tei187\GitDisWebhook\Messages\Abstract\MessageAbstract;
+
+class NewMessage extends MessageAbstract {
+    public function create(): void {
+        $this->message = "**New Message from {$this->payload->author}**\n\n"
+                       . "{$this->payload->message}";
+    }
+}
+```
+
+...and then adding it to configuration, finishing with creating a profile to use this service and webhook:
+
+- `config/messages.php`
+    ```php
+    // ...
+        'simple_service' => [
+            '*' => \tei187\GitDisWebhook\Messages\NewMessage::class
+        ],
+    // ...
+    ```
+
+- `config/profiles.php`
+    ```php
+    // ...
+        'simple_profile' => [
+            'webhook' => [
+                'url' => "https://discord.com/api/webhooks/your_webhook_url",
+                'secret' => "your_webhook_secret",
+                'class' => \tei187\GitDisWebhook\Webhooks\DiscordWebhook::class
+            ],
+            'services' => [
+                'simple_json',
+            ],
+        ],
+    // ...
+    ```
+
+This will wrap it up for creating a custom service, payload, message template, and configuring them to work together within the application. You can now handle incoming webhook requests with your custom logic and send formatted notifications to your Discord platform.

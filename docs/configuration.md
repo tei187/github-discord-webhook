@@ -1,6 +1,6 @@
 # Configuration
 
-Description of how to configure the application.
+Description of how to configure the application. It allows users to customize settings for services, webhooks, profiles, messages, and allowed events, as well as limit the scope of notifications to specific repositories and branches per profile.
 
 ---
 
@@ -32,9 +32,9 @@ Each profile is defined with a unique name, which will also be the end-point of 
 - `webhook`:
     - `url`: (required) targeted URL.
     - `secret`: (you may think it's "optional", but you're wrong about it) used for validating payloads.
-    - `class`: (optional) a direct webhook class to use (otherwise it will try to automatically detect it).
-- `services`: (optional) an array of service class names that the profile supports. If left empty, all detectable services are supported.
-- `repos`: (optional) an associative array mapping repository platforms to arrays of repository names. If left empty, all validated payloads from all repositories will be accepted. For GitHub, you can also specify branches using `author/repo:branch` or `author/repo@branch` format, not case-sensitive.
+    - `class`: (optional) a direct webhook class to use (otherwise it will try to automatically detect it through domain or link subpath).
+- `services`: (optional) an array of service class names that the profile supports. If left empty or if it contains `*`, all detectable services are supported.
+- `repos`: (optional) an associative array mapping services/platforms to arrays of repository names. If left empty, all validated payloads from all repositories will be accepted. For GitHub, you can also specify branches using `author/repo:branch` or `author/repo@branch` format, not case-sensitive.
 
 ### Services
 `config/services.php`
@@ -69,6 +69,4 @@ Detectors are used to automatically identify the appropriate service or webhook 
 
 ## Configuration instance
 
-Configuration is being injected throughout the process lifecycle. The main configuration files are located in the `config/` directory. Each configuration file serves a specific purpose and is structured to facilitate easy management of settings related to services, webhooks, profiles, messages, and allowed events. It is formable into a single configuration object that is passed around to various components that require access to these settings, instance of `tei187\GitDisWebhook\ValueObjects\Config`.
-
-This class has a method for validating the configuration data, ensuring that all required fields are present and correctly formatted. If any issues are found during validation, appropriate exceptions are thrown to alert the developer of misconfigurations. For further details, use `validate()` method of your configuration instance.
+Configuration is being injected throughout the process lifecycle. The main configuration files are located in the `config/` directory. Each configuration file serves a specific purpose and is structured to facilitate easy management of settings related to services, webhooks, profiles, messages, and allowed events. It is compacted into a single configuration object that is passed around to various components that require access to these settings, instance of `tei187\GitDisWebhook\ValueObjects\Config`. This class has a method for validating the configuration data, ensuring that all required fields are present and correctly formatted. If any issues are found during validation, appropriate exceptions are thrown to alert the developer of misconfigurations. For further details, use `validate()` method of your configuration instance.
