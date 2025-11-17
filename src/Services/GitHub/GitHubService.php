@@ -49,18 +49,13 @@ class GitHubService extends ServiceAbstract {
      * @throws \InvalidArgumentException if the payload is invalid.
      */
     public function __construct(?Config $config = null, ?PayloadInterface $payload = null, ?WebhookInterface $webhook = null, ?MessageInterface $message = null) {
+        // call parent constructor
         parent::__construct($config, $payload, $webhook, $message);
 
-        if (!$this->validatePayload($payload)) {
-            throw new \InvalidArgumentException('Payload could not be validated.');
-        }
-
-        // instantiate payload factory
-        $this->payloadFactory = new $this->payloadFactoryClass($this->config);
-
+        // validate payload, throw on exception
+        if (!$this->validatePayload($payload)) { throw new \InvalidArgumentException('Payload could not be validated.'); }
         // reference messages from config
         $this->messages = $this->config->messages->github ?? [];
-
         // set event and secret
         $this->event = $_SERVER['HTTP_X_GITHUB_EVENT'] ?? '';
         $this->secret = $this->config->secret ?? '';
@@ -84,13 +79,16 @@ class GitHubService extends ServiceAbstract {
      * @return bool True if the signature is valid, false otherwise.
      */
     public function validateSignature(string $signature): bool {
+        // get signatures from headers
         $signature256 = $_SERVER['HTTP_X_HUB_SIGNATURE_256'] ?? '';
         $signature = $_SERVER['HTTP_X_HUB_SIGNATURE'] ?? '';
 
         if ($signature256) {
+            // validate SHA-256 signature, if present
             $expected = 'sha256=' . hash_hmac('sha256', $this->payload->plain, $this->secret);
             return hash_equals($expected, $signature256);
         } elseif ($signature) {
+            // validate SHA-1 signature, if present
             $expected = 'sha1=' . hash_hmac('sha1', $this->payload->plain, $this->secret);
             return hash_equals($expected, $signature);
         }
