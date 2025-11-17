@@ -356,3 +356,7 @@ class NewMessage extends MessageAbstract {
     ```
 
 This will wrap it up for creating a custom service, payload, message template, and configuring them to work together within the application. You can now handle incoming webhook requests with your custom logic and send formatted notifications to your Discord platform.
+
+# More advanced extensions
+
+The example above demonstrates a basic implementation of extending the application. Depending on your requirements, you may need to implement more complex logic in your custom classes, such as handling different events, supporting multiple payload structures, or integrating with other platforms. Payload and message factories can also be utilized for more dynamic handling of different payloads and message formats within the same service. These however are not incorporated in the app due to being largely service/platform specific. You can refer to the existing services and their implementations within the application for more advanced usage examples and best practices.

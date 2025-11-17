@@ -14,7 +14,7 @@ This file specifies which events are allowed for each service. It holds an assoc
 ### Messages
 `config/messages.php`
 
-This file defines message templates used for notifications sent by the application. Each template is associated with a specific event type and contains placeholders that can be dynamically replaced with actual data when the message is generated.
+This file defines message templates used for notifications sent by the application. Each template is associated with a specific event type and contains placeholders that can be dynamically replaced with actual data when the message is generated. Templates are grouped by service names, then by event types, ending with applicable message class name.
 
 ### Payloads
 `config/payloads.php`

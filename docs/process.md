@@ -16,7 +16,7 @@ Next, the worker will call the `setPayload()` method on the service instance, wh
 This step is heavily dependent on the service used, as each service may have different requirements (JSON structure, event detection, payload adherence, etc).
 There wre two separate ways of handling payloads within the service:
 - **Automatic payload detection**: The service will attempt to automatically detect the appropriate payload handler based on the incoming request data and the detection rules defined by the service.
-- **Explicit payload assignment**: The service may explicitly define which payload handler to use, bypassing the automatic detection process. This is useful for services that have a fixed payload structure or when specific handling is required.
+- **Explicit payload assignment**: The service may explicitly define which payload factory (or directly which payload) to use, bypassing the automatic detection process. This is useful for services that have a fixed payload structure or when specific handling is required.
 The outcome payload will be dependable on which properties are defined by the service by default.
 
 After the payload is set, it will be added to the service instance, as well as be injected to the webhook instance for further processing.
@@ -51,35 +51,41 @@ flowchart TB
         n15["Webhook"]
         n16["Create Message"]
         n17["Message"]
-        n18["Send message to endpoint"]
-        n19["Respond to caller<br>(message received, not sent)"]
-        n22["Untitled Node"]
+        n18["Send Message"]
+        n19["Respond to caller"]
+        n22
+        n24
   end
-    n1(("Start")) --> n5["Instantiate Config (DI)"] & n3["Instantiate Worker"]
+    n1(("Start")) --> n5["Instantiate Config"] & n3["Instantiate Worker"]
+    n5 -- inject --> n3
     n3 --> s1
     n7 --> n8
     n8 -- ServiceFactory --> n9
-    n10 -- PayloadFactory --> n14
-    n13 -- WebhookFactory --> n15
-    n14 --- n22
+    n10 -- PayloadFactory / PayloadInterface --> n14
+    n13 -- WebhookFactory / WebhookInterface --> n15
+    n14 -- injection --> n22
     n11 -- TRUE --> n16
-    n16 -- MessageFactory --> n17
+    n16 -- MessageFactory / MessageInterface --> n17
     n17 --> n18
-    n11 -- FALSE --> n19
-    n18 --> n20(("End"))
+    n11 -- FALSE --> n24
+    n18 --> n24
     n19 --> n20
-    n9 --- n21["Junction"]
+    n9 --- n21
     n21 --> n10 & n13
-    n15 --- n22
+    n15 -- injection --> n22
     n22 --> n11
+    n24 --> n19
+    n20(("End"))
     n8@{ shape: event}
     n10@{ shape: event}
     n11@{ shape: decision}
     n13@{ shape: event}
     n16@{ shape: event}
     n18@{ shape: rounded}
+    n19@{ shape: rounded}
     n22@{ shape: f-circ}
     n5@{ shape: event}
     n3@{ shape: event}
     n21@{ shape: junction}
+    n24@{ shape: junction }
 ```
