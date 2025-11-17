@@ -74,28 +74,26 @@ class WebhookDetector
      * @return string|null The detected webhook class name, or null if none matched (or registry does not have corresponding entry).
      */
     public static function detect($url, ?Config $config = null): ?string
-    {
+    {   
         // Check if config is provided, if not, load 'webhooks' profiles from handler
-        if($config !== null) {
-            $webhooksConfig = &$config->webhooks ?? [];
-        } else {
-            $webhooksConfig = \tei187\GitDisWebhook\Handlers\ConfigHandler::load('webhooks');
-        }
+        $webhooksConfig = 
+            $config !== null 
+                ? $config->webhooks 
+                : \tei187\GitDisWebhook\Handlers\ConfigHandler::load('webhooks');
 
         foreach($webhooksConfig['detectors'] as $webhookName => $config) {
             $matches = [];
-
             // domain check
             if (isset($config['domain']) && is_array($config['domain'])) {
                 foreach ($config['domain'] as $allowedDomain) {
-                    $matches[] = (stripos(UrlParser::extractDomain($url), $allowedDomain) !== false) ? true : false;
+                    if(stripos(UrlParser::extractDomain($url), $allowedDomain) !== false) { $matches[] = true; }
                 }
             }
 
             // URL pattern check
             if (isset($config['url']) && is_array($config['url'])) {
                 foreach ($config['url'] as $urlPattern) {
-                    $matches[] = (stripos($url, $urlPattern) !== false) ? true : false;
+                    if(stripos($url, $urlPattern) !== false) { $matches[] = true; }
                 }
             }
 

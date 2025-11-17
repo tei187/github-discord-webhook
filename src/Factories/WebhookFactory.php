@@ -34,17 +34,17 @@ class WebhookFactory {
      * @return WebhookInterface|null The webhook instance, or null if no matching webhook was found.
      */
     public function createWebhook(?string $profileName = null, ?string $webhookName = null): ?WebhookInterface {
-        // determine webhook class by class name, registry key or auto-detection
-        $webhook = match(true) {
-            class_exists($webhookName) && in_array($webhookName, $this->config->webhooks['registry']) => $webhookName,
-            key_exists($webhookName, $this->config->webhooks['registry']) => $this->config->webhooks['registry'][$webhookName],
-            default => WebhookDetector::detect($_SERVER['REQUEST_URI'] ?? ''),
-        };
-
         // determine profile name
         if($profileName === null) {
             $profileName = UrlParser::extractWebhookName($_SERVER['REQUEST_URI'] ?? '');
         }
+
+        // determine webhook class by class name, registry key or auto-detection
+        $webhook = match(true) {
+            class_exists($webhookName) && in_array($webhookName, $this->config->webhooks['registry']) => $webhookName,
+            key_exists($webhookName, $this->config->webhooks['registry']) => $this->config->webhooks['registry'][$webhookName],
+            default => WebhookDetector::detect($this->config->profiles[$profileName]['webhook']['url'] ?? '', $this->config),
+        };
 
         // instantiate webhook if class exists
         if ($webhook && class_exists($webhook)) {
