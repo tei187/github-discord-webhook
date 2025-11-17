@@ -18,6 +18,7 @@
     },
     "scripts": {
         "default-config": "php scripts/rename_example_files.php",
-        "default-config-dry": "php scripts/rename_example_files.php --dry-run"
+        "default-config-dry": "php scripts/rename_example_files.php --dry-run",
+        "validate-config": "php scripts/validate_config.php"
     }
 }
