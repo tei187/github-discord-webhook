@@ -49,7 +49,7 @@ abstract class WebhookAbstract implements WebhookInterface {
                is_subclass_of($service, ServiceInterface::class);
     }
     
-    final public function supportsRepository(string $serviceName, ?string $repository = null, ?string $branch = null): bool {
+    public function supportsRepository(string $serviceName, ?string $repository = null, ?string $branch = null): bool {
         $pool = $this->config->profiles[$this->name]['repos'][$serviceName] ??= [];
 
         // if pool is empty or contains '*', allow all, or not respository specified
@@ -111,13 +111,16 @@ abstract class WebhookAbstract implements WebhookInterface {
     final protected function validateConfig(): void {
         $config = $this->config->profiles[$this->name];
 
+        // basic url validation
         if (!isset($config['webhook']['url']) || !filter_var($config['webhook']['url'], FILTER_VALIDATE_URL)) {
             throw new \InvalidArgumentException('Invalid webhook URL');
         }
+        // secret validation
         if (!isset($config['webhook']['secret'])) {
             throw new \InvalidArgumentException('Webhook secret is required');
         }
 
+        // assign values if nothing thrown
         $this->url    = $config['webhook']['url'];
         $this->secret = $config['webhook']['secret'];
         $this->repos  = $config['repos'] ?? [];
