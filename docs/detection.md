@@ -26,13 +26,18 @@ return [
     'detectors' => [
         'github' => [
             'detection' => [
-                'header existence' => [
-                    'X-GitHub-Event',
+                'headers' => [
+                    'HTTP_X_GITHUB_EVENT' => true,
                 ],
-                'header value match' => [
-                    'User-Agent' => 'GitHub-Hookshot',
+                'values_match' => [],
+                'values_contain' => [
+                    'HTTP_USER_AGENT' => 'GitHub-Hookshot',
                 ],
-                'request method' => 'POST',
+                'method' => 'POST',
+                'origin' => [
+                    'github.com',
+                    'api.github.com',
+                ],
             ],
         ],
     ]
@@ -57,7 +62,7 @@ return [
     'detectors' => [
         'discord' => [
             'detection' => [
-                'destination domain match' => [
+                'domain' => [
                     'discord.com',
                     'discordapp.com',
                 ],
